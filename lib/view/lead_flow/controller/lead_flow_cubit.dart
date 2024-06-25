@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../sections/educational_stage_section.dart';
 import '../sections/personal_info_section.dart';
 import '../sections/subjects_section.dart';
+import '../sections/subscribed_students_section.dart';
 
 part 'lead_flow_state.dart';
 
@@ -25,6 +26,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     const PersonalInfoSection(),
     const EducationalStageSection(),
     const SubjectsSection(),
+    const SubscribedStudentsSection(),
     Container(color: Colors.blue, width: 50, height: 100),
     Container(color: Colors.yellow, width: 50, height: 100),
     Container(color: Colors.purple, width: 50, height: 100),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:lead_flow/view/lead_flow/sections/label_with_asterisk.dart';
+import 'package:lead_flow/view/lead_flow/widgets/label_with_asterisk.dart';
 
 import '../../../components/text_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
