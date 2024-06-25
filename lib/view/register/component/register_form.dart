@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:lead_flow/components/custom_button.dart';
 import 'package:lead_flow/components/custom_text_field.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
-import 'package:lead_flow/core/snack_bar.dart';
-
 import '../controller/auth_cubit.dart';
 
 class RegisterForm extends StatelessWidget {

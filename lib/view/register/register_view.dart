@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
+import 'package:lead_flow/core/router/router.dart';
+import 'package:lead_flow/view/lead_flow/lead_flow_view.dart';
 import 'package:lead_flow/view/register/component/social_button.dart';
 
 import '../../components/custom_button.dart';
@@ -43,7 +45,7 @@ class RegisterView extends StatelessWidget {
                                 showErrorSnackBar(context, 'كلمة المرور غير متطابقة');
                                 return;
                               }
-                              print('register');
+                              GlobalRouter.navigateTo(const LeadFlowView());
                             }
                           }),
                     ),

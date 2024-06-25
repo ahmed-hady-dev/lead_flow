@@ -23,7 +23,7 @@ class CustomTextField extends StatefulWidget {
   final bool showBorder;
   final BoxConstraints? prefixIconConstraints;
   const CustomTextField({
-    Key? key,
+    super.key,
     this.type = TextInputType.text,
     this.prefix,
     required this.hint,
@@ -43,7 +43,7 @@ class CustomTextField extends StatefulWidget {
     this.textStyle,
     this.prefixIconConstraints,
     this.hintStyle,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();

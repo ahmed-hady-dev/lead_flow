@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 
 import '../../../constants/app_colors.dart';
-import '../controller/auth_cubit.dart';
 
 class RoleWidget extends StatelessWidget {
   const RoleWidget({

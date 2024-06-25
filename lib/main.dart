@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:lead_flow/view/Register/choose_role_view.dart';
+import 'package:lead_flow/view/lead_flow/lead_flow_view.dart';
 
 import 'core/helpers/bloc_observer.dart';
 import 'core/helpers/dio_helper.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Elmadrasah',
       theme: lightTheme(context),
-      home: const ChooseRoleView(),
+      home: const LeadFlowView(),
       debugShowCheckedModeBanner: false,
       locale: context.locale,
       navigatorKey: navigatorKey,

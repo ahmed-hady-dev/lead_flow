@@ -4,6 +4,8 @@ import 'app_colors.dart';
 
 ThemeData lightTheme(BuildContext context) {
   return ThemeData.light().copyWith(
+    primaryColor: AppColors.primaryGreen,
+    primaryColorLight: AppColors.primaryGreen,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
     colorScheme: Theme.of(context).colorScheme.copyWith(primary: AppColors.primaryGreen),

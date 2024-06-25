@@ -18,3 +18,7 @@ extension Height on Widget {
 extension Width on Widget {
   double get width => MediaQuery.of(GlobalRouter.currentContext!).size.width;
 }
+
+extension StringExtension on String {
+  String get capitalize => isNotEmpty ? this[0].toUpperCase() + substring(1) : this;
+}
