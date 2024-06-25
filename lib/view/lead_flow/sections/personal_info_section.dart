@@ -7,9 +7,9 @@ import 'package:lead_flow/view/lead_flow/component/nationality_drop_down_field.d
 import 'package:lead_flow/view/lead_flow/component/select_date_text_form_field.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 
-import '../../components/text_with_vertical_divider.dart';
-import '../../constants/app_colors.dart';
-import 'component/gender_drop_down_field.dart';
+import '../../../components/text_with_vertical_divider.dart';
+import '../../../constants/app_colors.dart';
+import '../component/gender_drop_down_field.dart';
 
 class PersonalInfoSection extends StatelessWidget {
   const PersonalInfoSection({

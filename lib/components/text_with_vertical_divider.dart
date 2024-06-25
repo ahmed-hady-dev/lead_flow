@@ -21,7 +21,9 @@ class _TextWithVerticalDividerState extends State<TextWithVerticalDivider> {
   void _getWidgetHeight() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBox = _key.currentContext?.findRenderObject() as RenderBox;
-      textHeight = renderBox.size.height;
+      setState(() {
+        textHeight = renderBox.size.height;
+      });
     });
   }
 
@@ -34,6 +36,7 @@ class _TextWithVerticalDividerState extends State<TextWithVerticalDivider> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
           height: textHeight,

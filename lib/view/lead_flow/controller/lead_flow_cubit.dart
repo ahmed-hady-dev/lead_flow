@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../personal_info_section.dart';
+import '../sections/educational_stage_section.dart';
+import '../sections/personal_info_section.dart';
+import '../sections/subjects_section.dart';
 
 part 'lead_flow_state.dart';
 
@@ -21,8 +23,8 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   PageController pageController = PageController();
   List<Widget> screens = [
     const PersonalInfoSection(),
-    Container(color: Colors.red, width: 50, height: 100),
-    Container(color: Colors.green, width: 50, height: 100),
+    const EducationalStageSection(),
+    const SubjectsSection(),
     Container(color: Colors.blue, width: 50, height: 100),
     Container(color: Colors.yellow, width: 50, height: 100),
     Container(color: Colors.purple, width: 50, height: 100),
@@ -30,6 +32,12 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     Container(color: Colors.pink, width: 50, height: 100),
   ];
   late double progress = 1 / screens.length;
+  String? academicStage;
+  String? theClass;
+  String? curriculum;
+  List<String> academicStages = [];
+  List<String> theClasses = [];
+  List<String> curriculums = [];
   void updateFlowIndex(int index) {
     completeFlowIndex = index;
     emit(ChangeProgressState());
@@ -43,9 +51,8 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-      progress = completeFlowIndex / (screens.length - 1);
+      progress = (completeFlowIndex + 1) / (screens.length);
     }
-
     emit(ChangeProgressState());
   }
 
@@ -58,12 +65,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
         curve: Curves.decelerate,
       );
       if (completeFlowIndex != 0) {
-        progress = completeFlowIndex / (screens.length - 1);
+        progress = (completeFlowIndex + 1) / (screens.length);
       } else {
         progress = 1 / screens.length;
       }
     }
-
     emit(ChangeProgressState());
   }
 

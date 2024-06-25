@@ -5,10 +5,16 @@ import 'app_colors.dart';
 ThemeData lightTheme(BuildContext context) {
   return ThemeData.light().copyWith(
     primaryColor: AppColors.primaryGreen,
+    // hintColor: AppColors.primaryGreen,
+    highlightColor: AppColors.primaryGreen.withOpacity(0.5),
+    canvasColor: AppColors.primaryGreen,
     primaryColorLight: AppColors.primaryGreen,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
-    colorScheme: Theme.of(context).colorScheme.copyWith(primary: AppColors.primaryGreen),
+    colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: AppColors.primaryGreen,
+          surfaceContainerHigh: Colors.white,
+        ),
     textTheme: ThemeData.light().textTheme.apply(fontFamily: 'Tajawal'),
     primaryTextTheme: ThemeData.light().textTheme.apply(fontFamily: 'Tajawal'),
     appBarTheme: AppBarTheme.of(context).copyWith(backgroundColor: Colors.white),

@@ -35,11 +35,12 @@ class LeadFlowView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ProgressBar(),
+                  const ProgressBar(),
                   Gap(height * 0.05),
                   Expanded(
                     child: PageView.builder(
                       controller: cubit.pageController,
+                      physics: const NeverScrollableScrollPhysics(),
                       onPageChanged: (index) {
                         cubit.updateFlowIndex(index);
                       },
