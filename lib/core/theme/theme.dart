@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import '../../constants/app_colors.dart';
 
 ThemeData lightTheme(BuildContext context) {
   return ThemeData.light().copyWith(
     primaryColor: AppColors.primaryGreen,
-    // hintColor: AppColors.primaryGreen,
-    highlightColor: AppColors.primaryGreen.withOpacity(0.5),
     canvasColor: AppColors.primaryGreen,
     primaryColorLight: AppColors.primaryGreen,
     brightness: Brightness.light,

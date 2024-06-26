@@ -4,7 +4,7 @@ import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/view/lead_flow/component/subscription_chip_list.dart';
 import 'package:lead_flow/view/lead_flow/model/package_model.dart';
 
-import '../../../components/text_with_vertical_divider.dart';
+import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/chip_list.dart';
 import '../widgets/label_with_asterisk.dart';
@@ -18,7 +18,7 @@ class PackageSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
       children: [
-        const TextWithVerticalDivider(
+        const WidgetWithVerticalDivider(
           text: 'كون الباقة التي تناسبك مع إحتياجاتك و سنضمن لك أقصى إستفادة من كل حصة.',
           dividerColor: AppColors.primaryYellow,
         ),

@@ -7,7 +7,7 @@ import 'package:lead_flow/view/lead_flow/component/nationality_drop_down_field.d
 import 'package:lead_flow/view/lead_flow/component/select_date_text_form_field.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 
-import '../../../components/text_with_vertical_divider.dart';
+import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/gender_drop_down_field.dart';
 
@@ -25,7 +25,7 @@ class PersonalInfoSection extends StatelessWidget {
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(horizontal: width * 0.06),
         children: [
-          const TextWithVerticalDivider(
+          const WidgetWithVerticalDivider(
             text:
                 'نحن هنا لمساعدتك في رحلتك التعليميه إملأ بكل ثقة بيانات الإتصال الخاصة بك لنتمكن من توجيهك خطوة بخطوة',
             dividerColor: AppColors.primaryYellow,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 
-import '../../../components/text_with_vertical_divider.dart';
+import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/chip_list.dart';
 import '../widgets/label_with_asterisk.dart';
@@ -16,7 +16,7 @@ class AppointmentsSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
       children: [
-        const TextWithVerticalDivider(
+        const WidgetWithVerticalDivider(
           text: 'حدد الفتره الزمنية المناسة لك و سننظم الحصص وفقاً لجدولك الزمني بكل دقة.',
           dividerColor: AppColors.primaryGreen,
         ),
@@ -46,11 +46,11 @@ class AppointmentsSection extends StatelessWidget {
         const LabelWithAsterisk(label: 'إختر التوقيت المناسب لك'),
         ChipList(
           chips: [
-            '15:00 م',
-            '15:00 م',
-            '15:00 ص',
-            '15:00 ص',
-            '12:00 م',
+            '10:00 م',
+            '11:00 م',
+            '12:00 ص',
+            '1:00 ص',
+            '2:00 م',
           ],
           selectedChips: [],
         ),

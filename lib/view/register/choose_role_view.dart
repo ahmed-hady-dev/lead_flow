@@ -7,7 +7,7 @@ import 'package:lead_flow/core/router/router.dart';
 import 'package:lead_flow/view/Register/controller/auth_cubit.dart';
 import 'package:lead_flow/view/register/component/login_row.dart';
 
-import '../../components/text_with_vertical_divider.dart';
+import '../../components/widget_with_vertical_divider.dart';
 import '../../core/snack_bar.dart';
 import 'component/choose_role_row.dart';
 import 'register_view.dart';
@@ -34,7 +34,7 @@ class ChooseRoleView extends StatelessWidget {
                   ),
                 ),
                 Gap(height * 0.02),
-                const TextWithVerticalDivider(
+                const WidgetWithVerticalDivider(
                     text:
                         'هل انت طالب تسعى لتوسيع افاقك و فتح أبواب المعرفه؟ أم ولي أمر تود متابعة رحلة ابنك التعليمية و دعمه في اكتشاف شغفه'),
                 Gap(height * 0.015),

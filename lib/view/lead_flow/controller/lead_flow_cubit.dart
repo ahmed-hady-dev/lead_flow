@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -6,6 +7,8 @@ import 'package:meta/meta.dart';
 import '../sections/appointments_section.dart';
 import '../sections/educational_stage_section.dart';
 import '../sections/package_section.dart';
+import '../sections/payment_section.dart';
+import '../sections/payment_success_section.dart';
 import '../sections/personal_info_section.dart';
 import '../sections/subjects_section.dart';
 import '../sections/subscribed_students_section.dart';
@@ -20,6 +23,15 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController remarksController = TextEditingController();
   GlobalKey<FormState> personalInfoFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> paymentFormKey = GlobalKey<FormState>();
+  TextEditingController creditCardNumberController = TextEditingController();
+  TextEditingController expirationDateController = TextEditingController();
+  TextEditingController cvvNumberController = TextEditingController();
+  TextEditingController nameOnCardController = TextEditingController();
+  FocusNode creditCardFocusNode = FocusNode();
+  FocusNode expirationDateNode = FocusNode();
+  FocusNode cvvNumberNode = FocusNode();
+  FocusNode nameOnCardNode = FocusNode();
   String? gender;
   String? nationality;
   String? difficulties;
@@ -31,9 +43,8 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     const SubscribedStudentsSection(),
     const AppointmentsSection(),
     const PackageSection(),
-    Container(color: Colors.purple, width: 50, height: 100),
-    Container(color: Colors.orange, width: 50, height: 100),
-    Container(color: Colors.pink, width: 50, height: 100),
+    const PaymentSection(),
+    const PaymentSuccessSection(),
   ];
   late double progress = 1 / screens.length;
   String? academicStage;
@@ -42,6 +53,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   List<String> academicStages = [];
   List<String> theClasses = [];
   List<String> curriculums = [];
+  bool isTermsChecked = false;
   void updateFlowIndex(int index) {
     completeFlowIndex = index;
     emit(ChangeProgressState());
@@ -75,6 +87,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       }
     }
     emit(ChangeProgressState());
+  }
+
+  void checkTerms({required bool value}) {
+    isTermsChecked = value;
+    emit(CheckTermsState());
   }
 
   void emitState({required LeadFlowState state}) {

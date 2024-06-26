@@ -10,3 +10,5 @@ final class ChangeProgressState extends LeadFlowState {}
 final class ChangeDateState extends LeadFlowState {}
 
 final class UpdatePersonalInfoState extends LeadFlowState {}
+
+final class CheckTermsState extends LeadFlowState {}

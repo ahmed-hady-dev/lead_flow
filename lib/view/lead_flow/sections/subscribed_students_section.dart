@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 
-import '../../../components/text_with_vertical_divider.dart';
+import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/chip_list.dart';
 import '../widgets/label_with_asterisk.dart';
@@ -16,7 +16,7 @@ class SubscribedStudentsSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
       children: [
-        const TextWithVerticalDivider(
+        const WidgetWithVerticalDivider(
           text: 'إملأ المعلومات الإضافية لتمكيننا من توفير تجربة دراسية مخصصة لإحتياجاتك الفردية',
           dividerColor: AppColors.primaryYellow,
         ),

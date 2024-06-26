@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/view/lead_flow/widgets/label_with_asterisk.dart';
 
-import '../../../components/text_with_vertical_divider.dart';
+import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../../../core/helpers/extensions.dart';
 import '../component/chip_list.dart';
@@ -16,7 +16,7 @@ class EducationalStageSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
       children: [
-        const TextWithVerticalDivider(
+        const WidgetWithVerticalDivider(
           text: 'اختر المرحلة الدراسية التي تناسبك و سنضمن لك افضل الخيارات التعليمية المتاحة.',
           dividerColor: AppColors.primaryYellow,
         ),

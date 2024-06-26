@@ -3,19 +3,21 @@ import 'package:gap/gap.dart';
 import 'package:lead_flow/constants/app_colors.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 
-class TextWithVerticalDivider extends StatefulWidget {
-  const TextWithVerticalDivider({
+class WidgetWithVerticalDivider extends StatefulWidget {
+  const WidgetWithVerticalDivider({
     super.key,
     this.dividerColor = AppColors.primaryGreen,
-    required this.text,
+    this.text,
+    this.child,
   });
   final Color dividerColor;
-  final String text;
+  final String? text;
+  final Widget? child;
   @override
-  State<TextWithVerticalDivider> createState() => _TextWithVerticalDividerState();
+  State<WidgetWithVerticalDivider> createState() => _WidgetWithVerticalDividerState();
 }
 
-class _TextWithVerticalDividerState extends State<TextWithVerticalDivider> {
+class _WidgetWithVerticalDividerState extends State<WidgetWithVerticalDivider> {
   final GlobalKey _key = GlobalKey();
   double textHeight = 72;
   void _getWidgetHeight() {
@@ -49,7 +51,9 @@ class _TextWithVerticalDividerState extends State<TextWithVerticalDivider> {
         Gap(widget.width * 0.03),
         Expanded(
           key: _key,
-          child: Text(widget.text, style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+          child: widget.child ??
+              Text(widget.text ?? 'enter text',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
         ),
       ],
     );
