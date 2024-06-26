@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:lead_flow/view/lead_flow/lead_flow_view.dart';
 
 import 'core/helpers/bloc_observer.dart';
 import 'core/helpers/dio_helper.dart';
 import 'core/helpers/hive_helper.dart';
 import 'core/router/router.dart';
 import 'core/theme/theme.dart';
+import 'view/register/choose_role_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Elmadrasah',
       theme: lightTheme(context),
-      home: const LeadFlowView(),
+      home: const ChooseRoleView(),
       debugShowCheckedModeBanner: false,
       locale: context.locale,
       navigatorKey: navigatorKey,

@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:lead_flow/components/custom_button.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/core/router/router.dart';
-import 'package:lead_flow/view/Register/controller/auth_cubit.dart';
 import 'package:lead_flow/view/register/component/login_row.dart';
+import 'package:lead_flow/view/register/controller/auth_cubit.dart';
 
 import '../../components/widget_with_vertical_divider.dart';
 import '../../core/snack_bar.dart';

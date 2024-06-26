@@ -14,7 +14,6 @@ import 'controller/auth_cubit.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

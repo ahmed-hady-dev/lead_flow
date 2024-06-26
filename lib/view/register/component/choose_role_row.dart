@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lead_flow/view/Register/controller/auth_cubit.dart';
+import 'package:lead_flow/view/register/controller/auth_cubit.dart';
 import 'package:lead_flow/view/register/component/role_widget.dart';
 import '../../../constants/app_colors.dart';
 
