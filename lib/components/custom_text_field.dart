@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants/app_colors.dart';
 
@@ -22,6 +23,7 @@ class CustomTextField extends StatefulWidget {
   final TextStyle? hintStyle;
   final bool showBorder;
   final BoxConstraints? prefixIconConstraints;
+  final List<TextInputFormatter>? inputFormatters;
   const CustomTextField({
     super.key,
     this.type = TextInputType.text,
@@ -43,6 +45,7 @@ class CustomTextField extends StatefulWidget {
     this.textStyle,
     this.prefixIconConstraints,
     this.hintStyle,
+    this.inputFormatters,
   });
 
   @override
@@ -66,10 +69,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onTap: widget.onTap,
         validator: widget.validator,
         onChanged: widget.onChange,
-        maxLines: widget.type == TextInputType.visiblePassword ? 1 : widget.lines,
-        onFieldSubmitted: widget.onFieldSubmitted,
         focusNode: widget.focusNode,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        maxLines: widget.type == TextInputType.visiblePassword ? 1 : widget.lines,
         obscureText: widget.type == TextInputType.visiblePassword && !_visible,
+        inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: widget.hintStyle,

@@ -51,7 +51,7 @@ class _ProgressBarState extends State<ProgressBar> {
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cubit.completeFlowIndex == 7 ? AppColors.primaryGreen : Colors.white,
                     shape: BoxShape.circle,
                     border: Border.all(color: AppColors.primaryGreen, width: 2),
                   ),

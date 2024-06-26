@@ -1,56 +1,136 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:lead_flow/components/custom_button.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
+import 'package:lead_flow/core/router/router.dart';
+import 'package:lead_flow/core/snack_bar.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../home/home_view.dart';
 
 class ControlButtonsRow extends StatelessWidget {
   const ControlButtonsRow({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.02),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () => LeadFlowCubit.get(context).decreaseProgress(),
-              icon: const Icon(Icons.keyboard_double_arrow_right, color: AppColors.primaryGreen),
-              label: const Text('السابق', style: TextStyle(color: AppColors.primaryGreen)),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: AppColors.primaryGreen,
-                backgroundColor: Colors.white,
-                side: const BorderSide(color: AppColors.primaryGreen),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
-          ),
-          Gap(width * 0.03),
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () => LeadFlowCubit.get(context).increaseProgress(),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: AppColors.primaryGreen,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('التالي'),
-                  Gap(8),
-                  Icon(Icons.keyboard_double_arrow_left),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+    return BlocBuilder<LeadFlowCubit, LeadFlowState>(
+      builder: (context, state) {
+        final cubit = LeadFlowCubit.get(context);
+        final isEndReached = LeadFlowCubit.get(context).completeFlowIndex == 7;
+        final index = LeadFlowCubit.get(context).completeFlowIndex;
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.02),
+          child: isEndReached
+              ? CustomButton(
+                  text: 'توجه إلى جدولك الدراسي',
+                  radius: 8,
+                  onPressed: () => GlobalRouter.navigateAndPopAll(const HomeView()),
+                )
+              : Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => cubit.decreaseProgress(),
+                        icon: const Icon(Icons.keyboard_double_arrow_right, color: AppColors.primaryGreen),
+                        label: const Text('السابق', style: TextStyle(color: AppColors.primaryGreen)),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: AppColors.primaryGreen,
+                          backgroundColor: Colors.white,
+                          side: const BorderSide(color: AppColors.primaryGreen),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                      ),
+                    ),
+                    Gap(width * 0.03),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          switch (index) {
+                            case 0:
+                              if (cubit.personalInfoFormKey.currentState!.validate()) {
+                                cubit.increaseProgress();
+                              }
+                            case 1:
+                              if (cubit.selectedEducationalLevelList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار المرحلة الدراسية');
+                              } else if (cubit.selectedClassesList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار الصف الدراسي');
+                              } else if (cubit.selectedCurriculumsList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار المنهج الدراسي');
+                              } else {
+                                cubit.increaseProgress();
+                              }
+                            case 2:
+                              if (cubit.selectedSubjectsList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار المواد التي ترغب في دراستها');
+                              } else {
+                                cubit.increaseProgress();
+                              }
+                            case 3:
+                              if (cubit.selectedParticipatingStudentsList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار عدد الطلاب المشتركين');
+                              } else if (cubit.selectedTargetsList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار أهدافك الدراسية');
+                              } else {
+                                cubit.increaseProgress();
+                              }
+                            case 4:
+                              if (cubit.selectedDaysList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار الأيام المناسبة لك');
+                              } else if (cubit.selectedTimePeriodList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار الفترة الزمنية المناسبة لك');
+                              } else if (cubit.selectedTimesList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار التوقيت المناسب لك');
+                              } else {
+                                cubit.increaseProgress();
+                              }
+                            case 5:
+                              if (cubit.selectedWeeklyLessonsList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار عدد الحصص إسبوعياً');
+                              } else if (cubit.selectedHoursPerClassList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار عدد ساعات الحصة الواحدة');
+                              } else if (cubit.selectedPackagesList.isEmpty) {
+                                showErrorSnackBar(context, 'الرجاء اختيار مدة الإ شتراك');
+                              } else {
+                                cubit.increaseProgress();
+                              }
+                            case 6:
+                              if (cubit.paymentFormKey.currentState!.validate()) {
+                                if (!cubit.isTermsChecked) {
+                                  showErrorSnackBar(context, 'يجب الموافقه على الشروط والأحكام');
+                                } else {
+                                  cubit.increaseProgress();
+                                }
+                              }
+                              break;
+                            default:
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.primaryGreen,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('التالي'),
+                            Gap(8),
+                            Icon(Icons.keyboard_double_arrow_left),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        );
+      },
     );
   }
 }

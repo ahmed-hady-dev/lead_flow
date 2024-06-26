@@ -35,7 +35,7 @@ class PersonalInfoSection extends StatelessWidget {
             controller: cubit.birthDateController,
             pickedDate: cubit.pickedBirthDate,
             validator: (value) {
-              if (value == null) {
+              if (value == null || value.isEmpty) {
                 return 'يجب عليك تحديد تاريخ الميلاد';
               }
               return null;

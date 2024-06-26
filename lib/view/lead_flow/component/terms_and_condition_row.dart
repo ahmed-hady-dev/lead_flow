@@ -5,7 +5,7 @@ import '../../../constants/app_colors.dart';
 import '../controller/lead_flow_cubit.dart';
 
 class TermsAndConditionRow extends StatelessWidget {
-  const TermsAndConditionRow({Key? key}) : super(key: key);
+  const TermsAndConditionRow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class TermsAndConditionRow extends StatelessWidget {
               value: cubit.isTermsChecked,
               activeColor: AppColors.primaryGreen,
               onChanged: (bool? value) => cubit.checkTerms(value: value!),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             );
           },
         ),

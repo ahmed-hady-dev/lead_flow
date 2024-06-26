@@ -14,11 +14,11 @@ class ExpirationDateField extends StatefulWidget {
 class _ExpirationDateFieldState extends State<ExpirationDateField> {
   String? _validateDate(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter expiration date';
+      return 'الرجاء إدخال تاريخ انتهاء الصلاحية';
     }
     final date = DateFormat('MM/yy').parse(value, true);
     if (date.isBefore(DateTime.now())) {
-      return 'Expiration date can\'t be in the past';
+      return 'لا يمكن أن يكون تاريخ انتهاء الصلاحية في الماضي';
     }
     return null;
   }

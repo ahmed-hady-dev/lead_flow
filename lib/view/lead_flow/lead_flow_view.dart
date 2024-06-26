@@ -50,7 +50,6 @@ class LeadFlowView extends StatelessWidget {
                       },
                     ),
                   ),
-                  // cubit.screens[cubit.completeFlowIndex],
                   const ControlButtonsRow(),
                 ],
               );

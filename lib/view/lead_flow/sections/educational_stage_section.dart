@@ -6,12 +6,14 @@ import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../../../core/helpers/extensions.dart';
 import '../component/chip_list.dart';
+import '../controller/lead_flow_cubit.dart';
 
 class EducationalStageSection extends StatelessWidget {
   const EducationalStageSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = LeadFlowCubit.get(context);
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
@@ -23,35 +25,20 @@ class EducationalStageSection extends StatelessWidget {
         Gap(height * 0.02),
         const LabelWithAsterisk(label: 'حدد المرحلة الدراسية'),
         ChipList(
-          chips: [
-            'رياض أطفال',
-            'التعليم الإبتدائي',
-            'التعليم المتوسط',
-            'التعليم الثانوي',
-          ],
-          selectedChips: [],
+          chips: cubit.educationalLevelList,
+          selectedChips: cubit.selectedEducationalLevelList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'حدد صفك الدراسي'),
         ChipList(
-          chips: [
-            'الصف الخامس',
-            'الصف السادس',
-            'الصف السابع',
-            'الصف الثامن',
-          ],
-          selectedChips: [],
+          chips: cubit.classesList,
+          selectedChips: cubit.selectedClassesList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'حدد المنهج الدراسي'),
         ChipList(
-          chips: [
-            'المنهج البريطاني',
-            'المنهج الأمريكي',
-            'المنهج الموازي',
-            'أخرى',
-          ],
-          selectedChips: [],
+          chips: cubit.curriculumsList,
+          selectedChips: cubit.selectedCurriculumsList,
         )
       ],
     );

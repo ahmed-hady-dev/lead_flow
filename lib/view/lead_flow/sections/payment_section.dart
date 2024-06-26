@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
-import 'package:lead_flow/view/lead_flow/sections/payment_form.dart';
+import 'package:lead_flow/view/lead_flow/component/payment_form.dart';
 
 import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/terms_and_condition_row.dart';
 
 class PaymentSection extends StatelessWidget {
-  const PaymentSection({Key? key}) : super(key: key);
+  const PaymentSection({super.key});
 
   @override
   Widget build(BuildContext context) {
