@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 
-import '../controller/lead_flow_cubit.dart';
+import '../model/ui_models.dart';
 import '../widgets/grid_item_widget.dart';
 
 class SubjectsGridView extends StatelessWidget {
@@ -9,7 +9,6 @@ class SubjectsGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = LeadFlowCubit.get(context);
     return GridView.builder(
       padding: EdgeInsets.symmetric(vertical: height * 0.015, horizontal: width * 0.05),
       shrinkWrap: true,
@@ -20,12 +19,12 @@ class SubjectsGridView extends StatelessWidget {
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
-      itemCount: cubit.subjectsList.length,
+      itemCount: subjectsList.length,
       cacheExtent: 10,
       itemBuilder: (context, index) {
         return GridItemWidget(
-          chip: cubit.subjectsList[index],
-          selectedChips: cubit.selectedSubjectsList,
+          chip: subjectsList[index],
+          selectedChips: selectedSubjectsList,
         );
       },
     );

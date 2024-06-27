@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lead_flow/view/register/controller/auth_cubit.dart';
 import 'package:lead_flow/view/register/component/role_widget.dart';
 import '../../../constants/app_colors.dart';
+import '../../lead_flow/controller/lead_flow_cubit.dart';
 
 class ChooseRoleRow extends StatelessWidget {
   const ChooseRoleRow({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocBuilder<LeadFlowCubit, LeadFlowState>(
       builder: (context, state) {
-        final cubit = AuthCubit.get(context);
+        final cubit = LeadFlowCubit.get(context);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[

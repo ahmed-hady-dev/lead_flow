@@ -50,7 +50,7 @@ class PersonalInfoSection extends StatelessWidget {
           Gap(height * 0.01),
           CustomTextField(
             lines: 3,
-            controller: cubit.remarksController,
+            controller: cubit.descriptionController,
             hint: 'هل ترغب في تقديم أي ملاحظات إضافيه حول إحتياجاتك التعليمية أو الدعم الذي تحتاجه؟',
           )
         ],

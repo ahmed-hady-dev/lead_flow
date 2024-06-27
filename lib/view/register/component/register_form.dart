@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/components/custom_text_field.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
-import '../controller/auth_cubit.dart';
+import '../../lead_flow/controller/lead_flow_cubit.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({
@@ -12,11 +13,11 @@ class RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocBuilder<LeadFlowCubit, LeadFlowState>(
       builder: (context, state) {
-        final cubit = AuthCubit.get(context);
+        final cubit = LeadFlowCubit.get(context);
         return Form(
-          key: cubit.loginFormKey,
+          key: cubit.registerFormKey,
           child: Column(
             children: <Widget>[
               CustomTextField(
@@ -53,6 +54,10 @@ class RegisterForm extends StatelessWidget {
                 focusNode: cubit.phoneNode,
                 hint: 'رقم الموبايل',
                 type: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'هذا الحقل مطلوب';
@@ -103,7 +108,7 @@ class RegisterForm extends StatelessWidget {
               CustomTextField(
                 controller: cubit.confirmPasswordController,
                 focusNode: cubit.confirmPasswordNode,
-                hint: 'تاكيد كلمة المرور',
+                hint: 'تأكيد كلمة المرور',
                 type: TextInputType.visiblePassword,
                 validator: (value) {
                   if (value == null || value.isEmpty) {

@@ -7,6 +7,7 @@ import '../../../constants/app_colors.dart';
 import '../../../core/helpers/extensions.dart';
 import '../component/chip_list.dart';
 import '../controller/lead_flow_cubit.dart';
+import '../model/ui_models.dart';
 
 class EducationalStageSection extends StatelessWidget {
   const EducationalStageSection({super.key});
@@ -25,20 +26,20 @@ class EducationalStageSection extends StatelessWidget {
         Gap(height * 0.02),
         const LabelWithAsterisk(label: 'حدد المرحلة الدراسية'),
         ChipList(
-          chips: cubit.educationalLevelList,
-          selectedChips: cubit.selectedEducationalLevelList,
+          chips: stagesList.map((e) => e.name).toList(),
+          selectedChips: selectedStagesList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'حدد صفك الدراسي'),
         ChipList(
-          chips: cubit.classesList,
-          selectedChips: cubit.selectedClassesList,
+          chips: classRoomsList.map((e) => e.name).toList(),
+          selectedChips: selectedClassRoomsList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'حدد المنهج الدراسي'),
         ChipList(
-          chips: cubit.curriculumsList,
-          selectedChips: cubit.selectedCurriculumsList,
+          chips: courseStudyList.map((e) => e.name).toList(),
+          selectedChips: selectedCourseStudyList,
         )
       ],
     );

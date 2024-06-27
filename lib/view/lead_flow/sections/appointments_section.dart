@@ -5,7 +5,7 @@ import 'package:lead_flow/core/helpers/extensions.dart';
 import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/chip_list.dart';
-import '../controller/lead_flow_cubit.dart';
+import '../model/ui_models.dart';
 import '../widgets/label_with_asterisk.dart';
 
 class AppointmentsSection extends StatelessWidget {
@@ -13,7 +13,6 @@ class AppointmentsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = LeadFlowCubit.get(context);
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,
@@ -25,20 +24,20 @@ class AppointmentsSection extends StatelessWidget {
         Gap(height * 0.02),
         const LabelWithAsterisk(label: 'ما الأيام المناسبة لك'),
         ChipList(
-          chips: cubit.daysList,
-          selectedChips: cubit.selectedDaysList,
+          chips: daysList,
+          selectedChips: selectedDaysList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'ما الفترة الزمنية المناسبة لك'),
         ChipList(
-          chips: cubit.timePeriodList,
-          selectedChips: cubit.selectedTimePeriodList,
+          chips: timePeriodList,
+          selectedChips: selectedTimePeriodList,
         ),
         Gap(height * 0.01),
         const LabelWithAsterisk(label: 'إختر التوقيت المناسب لك'),
         ChipList(
-          chips: cubit.timesList,
-          selectedChips: cubit.selectedTimesList,
+          chips: timesList,
+          selectedChips: selectedTimesList,
         ),
       ],
     );

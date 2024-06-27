@@ -5,10 +5,10 @@ import 'package:lead_flow/components/custom_button.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/core/router/router.dart';
 import 'package:lead_flow/view/register/component/login_row.dart';
-import 'package:lead_flow/view/register/controller/auth_cubit.dart';
 
 import '../../components/widget_with_vertical_divider.dart';
 import '../../core/snack_bar.dart';
+import '../lead_flow/controller/lead_flow_cubit.dart';
 import 'component/choose_role_row.dart';
 import 'register_view.dart';
 
@@ -18,7 +18,7 @@ class ChooseRoleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => LeadFlowCubit(),
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -40,13 +40,13 @@ class ChooseRoleView extends StatelessWidget {
                 Gap(height * 0.015),
                 const ChooseRoleRow(),
                 Gap(height * 0.015),
-                BlocBuilder<AuthCubit, AuthState>(
+                BlocBuilder<LeadFlowCubit, LeadFlowState>(
                   builder: (context, state) {
-                    final cubit = AuthCubit.get(context);
+                    final cubit = LeadFlowCubit.get(context);
                     return CustomButton(
                       text: 'التالي',
                       onPressed: () {
-                        if (AuthCubit.get(context).isChosen == null) {
+                        if (cubit.isChosen == null) {
                           showErrorSnackBar(context, 'يجب تحديد نوع المستخدم');
                         } else {
                           GlobalRouter.navigateTo(BlocProvider.value(value: cubit, child: const RegisterView()));

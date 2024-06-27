@@ -8,18 +8,18 @@ import 'package:lead_flow/view/register/component/social_button.dart';
 
 import '../../components/custom_button.dart';
 import '../../core/snack_bar.dart';
+import '../lead_flow/controller/lead_flow_cubit.dart';
 import 'component/login_row.dart';
 import 'component/register_form.dart';
-import 'controller/auth_cubit.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<AuthCubit, AuthState>(
+      body: BlocBuilder<LeadFlowCubit, LeadFlowState>(
         builder: (context, state) {
-          final cubit = AuthCubit.get(context);
+          final cubit = LeadFlowCubit.get(context);
           return ListView(
             children: [
               Padding(
@@ -39,12 +39,15 @@ class RegisterView extends StatelessWidget {
                       child: CustomButton(
                           text: 'تسجيل جديد',
                           onPressed: () {
-                            if (cubit.loginFormKey.currentState!.validate()) {
+                            if (cubit.registerFormKey.currentState!.validate()) {
                               if (cubit.passwordController.text != cubit.confirmPasswordController.text) {
                                 showErrorSnackBar(context, 'كلمة المرور غير متطابقة');
                                 return;
                               }
-                              GlobalRouter.navigateTo(const LeadFlowView());
+                              GlobalRouter.navigateTo(BlocProvider.value(
+                                value: cubit,
+                                child: const LeadFlowView(),
+                              ));
                             }
                           }),
                     ),

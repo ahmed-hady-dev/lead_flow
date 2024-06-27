@@ -9,6 +9,7 @@ import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../home/home_view.dart';
+import '../model/ui_models.dart';
 
 class ControlButtonsRow extends StatelessWidget {
   const ControlButtonsRow({super.key});
@@ -47,53 +48,55 @@ class ControlButtonsRow extends StatelessWidget {
                     Gap(width * 0.03),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           switch (index) {
                             case 0:
                               if (cubit.personalInfoFormKey.currentState!.validate()) {
+                                await cubit.postUserForm();
                                 cubit.increaseProgress();
                               }
                             case 1:
-                              if (cubit.selectedEducationalLevelList.isEmpty) {
+                              if (selectedStagesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار المرحلة الدراسية');
-                              } else if (cubit.selectedClassesList.isEmpty) {
+                              } else if (selectedClassRoomsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار الصف الدراسي');
-                              } else if (cubit.selectedCurriculumsList.isEmpty) {
+                              } else if (selectedCourseStudyList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار المنهج الدراسي');
                               } else {
-                                cubit.increaseProgress();
+                                cubit.postSpecification();
+                                // cubit.increaseProgress();
                               }
                             case 2:
-                              if (cubit.selectedSubjectsList.isEmpty) {
+                              if (selectedSubjectsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار المواد التي ترغب في دراستها');
                               } else {
                                 cubit.increaseProgress();
                               }
                             case 3:
-                              if (cubit.selectedParticipatingStudentsList.isEmpty) {
+                              if (selectedParticipatingStudentsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد الطلاب المشتركين');
-                              } else if (cubit.selectedTargetsList.isEmpty) {
+                              } else if (selectedTargetsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار أهدافك الدراسية');
                               } else {
                                 cubit.increaseProgress();
                               }
                             case 4:
-                              if (cubit.selectedDaysList.isEmpty) {
+                              if (selectedDaysList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار الأيام المناسبة لك');
-                              } else if (cubit.selectedTimePeriodList.isEmpty) {
+                              } else if (selectedTimePeriodList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار الفترة الزمنية المناسبة لك');
-                              } else if (cubit.selectedTimesList.isEmpty) {
+                              } else if (selectedTimesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار التوقيت المناسب لك');
                               } else {
                                 cubit.increaseProgress();
                               }
                             case 5:
-                              if (cubit.selectedWeeklyLessonsList.isEmpty) {
+                              if (selectedWeeklyLessonsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد الحصص إسبوعياً');
-                              } else if (cubit.selectedHoursPerClassList.isEmpty) {
+                              } else if (selectedHoursPerClassList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد ساعات الحصة الواحدة');
-                              } else if (cubit.selectedPackagesList.isEmpty) {
+                              } else if (selectedPackagesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار مدة الإ شتراك');
                               } else {
                                 cubit.increaseProgress();
@@ -116,15 +119,23 @@ class ControlButtonsRow extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('التالي'),
-                            Gap(8),
-                            Icon(Icons.keyboard_double_arrow_left),
-                          ],
-                        ),
+                        child: state is PostUserFormLoading || state is PostSpecificationLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator.adaptive(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                ))
+                            : const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('التالي'),
+                                  Gap(8),
+                                  Icon(Icons.keyboard_double_arrow_left),
+                                ],
+                              ),
                       ),
                     ),
                   ],

@@ -14,6 +14,10 @@ class NationalityDropDownField extends StatelessWidget {
       hint: 'الجنسية',
       items: const [
         DropdownMenuItem(
+          value: 'Egyptian',
+          child: Text('مصري'),
+        ),
+        DropdownMenuItem(
           value: 'Emirati',
           child: Text('إماراتي'),
         ),
