@@ -27,7 +27,9 @@ class ControlButtonsRow extends StatelessWidget {
               ? CustomButton(
                   text: 'توجه إلى جدولك الدراسي',
                   radius: 8,
-                  onPressed: () => GlobalRouter.navigateAndPopAll(const HomeView()),
+                  onPressed: () {
+                    GlobalRouter.navigateAndPopAll(const HomeView());
+                  },
                 )
               : Row(
                   children: [
@@ -106,7 +108,7 @@ class ControlButtonsRow extends StatelessWidget {
                                 if (!cubit.isTermsChecked) {
                                   showErrorSnackBar(context, 'يجب الموافقه على الشروط والأحكام');
                                 } else {
-                                  cubit.increaseProgress();
+                                  cubit.postPayment();
                                 }
                               }
                               break;
@@ -124,8 +126,8 @@ class ControlButtonsRow extends StatelessWidget {
                                 state is PostRequiredCoursesLoading ||
                                 state is PostAdditionalInfoLoading ||
                                 state is PostTimePeriodLoading ||
-                                state is PostClassAndSubscriptionLoading
-                            // ||
+                                state is PostClassAndSubscriptionLoading ||
+                                state is PostPaymentLoading
                             ? const SizedBox(
                                 height: 24,
                                 width: 24,

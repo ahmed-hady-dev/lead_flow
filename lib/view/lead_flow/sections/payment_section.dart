@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/view/lead_flow/component/payment_form.dart';
-
 import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../component/terms_and_condition_row.dart';
+import '../model/ui_models.dart';
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({super.key});
@@ -35,9 +35,9 @@ class PaymentSection extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(),
-                  children: const [
-                    TextSpan(text: 'الإجمالي: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: '80 درهم'),
+                  children: [
+                    const TextSpan(text: 'الإجمالي: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '${double.tryParse(selectedPackagesList.first.price ?? '0')!.round()} درهم'),
                   ],
                 ),
               ),

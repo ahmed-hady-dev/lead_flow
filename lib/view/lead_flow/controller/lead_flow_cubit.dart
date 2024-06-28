@@ -13,6 +13,7 @@ import 'package:meta/meta.dart';
 import '../model/additional_info_model.dart';
 import '../model/class_model.dart';
 import '../model/material_model.dart';
+import '../model/payment_model.dart';
 import '../model/required_courses_model.dart';
 import '../model/specification_model.dart';
 import '../model/subscription_model.dart';
@@ -86,6 +87,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   PeriodModel? periodModel;
   List<SubscriptionModel>? subscriptionsList;
   ClassModel? classModel;
+  PaymentModel? paymentModel;
   int? formId;
   List<Widget> screens = [
     const PersonalInfoSection(),
@@ -97,6 +99,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     const PaymentSection(),
     const PaymentSuccessSection(),
   ];
+  void resetProgress() {
+    completeFlowIndex = 0;
+    progress = 1 / screens.length;
+    emit(ChangeProgressState());
+  }
 
   void changeChosen() {
     isChosen = isChosen == null ? true : null;
@@ -503,7 +510,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   }
 
   Future<void> postClassAndSubscription() async {
-    periodModel = null;
+    classModel = null;
     emit(PostClassAndSubscriptionLoading());
     try {
       List<String> sessions = [];
@@ -568,6 +575,52 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       debugPrint(e.toString());
       debugPrint(s.toString());
       emit(PostClassAndSubscriptionFailed());
+    }
+  }
+
+  Future<void> postPayment() async {
+    paymentModel = null;
+    emit(PostPaymentLoading());
+    try {
+      print('|==|' * 22);
+      print({
+        "form": formId,
+        "card_number": creditCardNumberController.value.text.trim(),
+        "cvc": cvvNumberController.value.text.trim(),
+        "exp_date": expirationDateController.value.text.trim(),
+        "card_holder": nameOnCardController.value.text.trim(),
+      });
+      print('|==|' * 22);
+      final response = await DioHelper.postData(
+        url: 'pay/',
+        data: {
+          "form": formId,
+          "card_number": creditCardNumberController.value.text.trim(),
+          "cvc": cvvNumberController.value.text.trim(),
+          "exp_date": expirationDateController.value.text.trim(),
+          "card_holder": nameOnCardController.value.text.trim(),
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        paymentModel = PaymentModel.fromJson(response.data);
+        print('|==|' * 22);
+        print('=====>>${response.statusMessage}');
+        print(paymentModel!.toJson());
+        print('|==|' * 22);
+        if (response.data == ["message': 'Class not found"]) {
+          throw Exception(response.data[0].toString());
+        }
+        emit(PostPaymentSuccess());
+      } else {
+        emit(PostPaymentFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(PostPaymentFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(PostPaymentFailed());
     }
   }
 

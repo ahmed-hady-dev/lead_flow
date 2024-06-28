@@ -74,3 +74,9 @@ class PostClassAndSubscriptionLoading extends LeadFlowState {}
 class PostClassAndSubscriptionSuccess extends LeadFlowState {}
 
 class PostClassAndSubscriptionFailed extends LeadFlowState {}
+
+class PostPaymentLoading extends LeadFlowState {}
+
+class PostPaymentSuccess extends LeadFlowState {}
+
+class PostPaymentFailed extends LeadFlowState {}
