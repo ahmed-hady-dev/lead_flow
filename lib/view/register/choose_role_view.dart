@@ -7,7 +7,7 @@ import 'package:lead_flow/core/router/router.dart';
 import 'package:lead_flow/view/register/component/login_row.dart';
 
 import '../../components/widget_with_vertical_divider.dart';
-import '../../core/snack_bar.dart';
+import '../../core/helpers/utils.dart';
 import '../lead_flow/controller/lead_flow_cubit.dart';
 import 'component/choose_role_row.dart';
 import 'register_view.dart';

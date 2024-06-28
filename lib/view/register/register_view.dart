@@ -7,7 +7,7 @@ import 'package:lead_flow/view/lead_flow/lead_flow_view.dart';
 import 'package:lead_flow/view/register/component/social_button.dart';
 
 import '../../components/custom_button.dart';
-import '../../core/snack_bar.dart';
+import '../../core/helpers/utils.dart';
 import '../lead_flow/controller/lead_flow_cubit.dart';
 import 'component/login_row.dart';
 import 'component/register_form.dart';

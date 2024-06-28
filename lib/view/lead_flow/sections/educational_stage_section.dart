@@ -6,7 +6,6 @@ import '../../../components/widget_with_vertical_divider.dart';
 import '../../../constants/app_colors.dart';
 import '../../../core/helpers/extensions.dart';
 import '../component/chip_list.dart';
-import '../controller/lead_flow_cubit.dart';
 import '../model/ui_models.dart';
 
 class EducationalStageSection extends StatelessWidget {
@@ -14,7 +13,6 @@ class EducationalStageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = LeadFlowCubit.get(context);
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       shrinkWrap: true,

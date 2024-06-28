@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveHelper {
@@ -29,9 +30,6 @@ class HiveHelper {
     return isOnBoardingChecked;
   }
 
-
-
-
   static Future<void> cacheUserToken({required String token}) async => await _appBox.put('token', token);
 
   static String? get getUserToken => _appBox.get('token');
@@ -42,13 +40,12 @@ class HiveHelper {
       try {
         userModel = _appBox.get('userModel');
       } catch (e) {
-        print('|==|' * 22);
-        print('HiveHelper.getUserInfo');
-        print(e.toString());
-        print('|==|' * 22);
+        debugPrint('|==|' * 22);
+        debugPrint('HiveHelper.getUserInfo');
+        debugPrint(e.toString());
+        debugPrint('|==|' * 22);
       }
     }
     return userModel;
   }
-
 }

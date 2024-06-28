@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
-import 'package:lead_flow/core/snack_bar.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
+import '../../core/helpers/utils.dart';
 import 'component/control_buttons_row.dart';
 import 'component/progress_bar.dart';
 

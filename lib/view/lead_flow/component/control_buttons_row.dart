@@ -4,10 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:lead_flow/components/custom_button.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/core/router/router.dart';
-import 'package:lead_flow/core/snack_bar.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../core/helpers/utils.dart';
 import '../../home/home_view.dart';
 import '../model/ui_models.dart';
 

@@ -10,6 +10,7 @@ import 'package:lead_flow/view/lead_flow/model/period_model.dart';
 import 'package:lead_flow/view/lead_flow/model/purpose_model.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/helpers/utils.dart';
 import '../model/additional_info_model.dart';
 import '../model/class_model.dart';
 import '../model/material_model.dart';
@@ -32,62 +33,6 @@ part 'lead_flow_state.dart';
 class LeadFlowCubit extends Cubit<LeadFlowState> {
   LeadFlowCubit() : super(LeadFlowInitial());
   static LeadFlowCubit get(context) => BlocProvider.of(context);
-
-  late double progress = 1 / screens.length;
-  bool? isChosen;
-  bool? isStudent;
-  bool isTermsChecked = false;
-  int completeFlowIndex = 0;
-  String? academicStage;
-  String? theClass;
-  String? curriculum;
-  String? gender;
-  String? nationality;
-  String? difficulties;
-  List<String> academicStages = [];
-  List<String> theClasses = [];
-  List<String> curriculums = [];
-  DateTime? pickedBirthDate;
-  late PageController pageController = PageController();
-  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> personalInfoFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> paymentFormKey = GlobalKey<FormState>();
-  late TextEditingController firstNameController = TextEditingController();
-  late TextEditingController lastNameController = TextEditingController();
-  late TextEditingController phoneController = TextEditingController();
-  late TextEditingController emailController = TextEditingController();
-  late TextEditingController passwordController = TextEditingController();
-  late TextEditingController confirmPasswordController = TextEditingController();
-  late TextEditingController birthDateController = TextEditingController();
-  late TextEditingController descriptionController = TextEditingController();
-  late TextEditingController creditCardNumberController = TextEditingController();
-  late TextEditingController expirationDateController = TextEditingController();
-  late TextEditingController cvvNumberController = TextEditingController();
-  late TextEditingController nameOnCardController = TextEditingController();
-
-  FocusNode firstNameNode = FocusNode();
-  FocusNode lastNameNode = FocusNode();
-  FocusNode phoneNode = FocusNode();
-  FocusNode emailNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
-  FocusNode confirmPasswordNode = FocusNode();
-  FocusNode creditCardNode = FocusNode();
-  FocusNode expirationDateNode = FocusNode();
-  FocusNode cvvNumberNode = FocusNode();
-  FocusNode nameOnCardNode = FocusNode();
-  FormModel? formModel;
-  SpecificationModel? specificationModel;
-  List<MaterialModel>? materialsList;
-  List<PurposeModel>? purposesList;
-  List<String>? chipPurposesList;
-  RequiredCoursesModel? requiredCoursesModel;
-  AdditionalInfoModel? additionalInfoModel;
-  List<DayModel>? daysList;
-  List<String>? chipDaysList;
-  PeriodModel? periodModel;
-  List<SubscriptionModel>? subscriptionsList;
-  ClassModel? classModel;
-  PaymentModel? paymentModel;
   int? formId;
   List<Widget> screens = [
     const PersonalInfoSection(),
@@ -99,12 +44,10 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     const PaymentSection(),
     const PaymentSuccessSection(),
   ];
-  void resetProgress() {
-    completeFlowIndex = 0;
-    progress = 1 / screens.length;
-    emit(ChangeProgressState());
-  }
 
+//==== role screen ====
+  bool? isChosen;
+  bool? isStudent;
   void changeChosen() {
     isChosen = isChosen == null ? true : null;
     emit(RoleChangedState());
@@ -116,17 +59,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     emit(RoleChangedState());
   }
 
-  int calculateAge(DateTime? birthDate) {
-    DateTime today = DateTime.now();
-    int age = today.year - birthDate!.year;
-    if (today.month < birthDate.month || (today.month == birthDate.month && today.day < birthDate.day)) {
-      age--;
-    }
-    return age;
-  }
-
+//==== lead flow screen ====
+  int completeFlowIndex = 0;
+  late double progress = 1 / screens.length;
+  late PageController pageController = PageController();
   void updateFlowIndex(int index) => completeFlowIndex = index;
-
   void increaseProgress() {
     if (completeFlowIndex < screens.length - 1) {
       completeFlowIndex++;
@@ -157,19 +94,34 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     emit(ChangeProgressState());
   }
 
-  void checkTerms({required bool value}) {
-    isTermsChecked = value;
-    emit(CheckTermsState());
+  void resetProgress() {
+    completeFlowIndex = 0;
+    progress = 1 / screens.length;
+    emit(ChangeProgressState());
   }
 
   void emitState({required LeadFlowState state}) {
     emit(state);
   }
 
+//==== register screen ====
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  late TextEditingController firstNameController = TextEditingController();
+  late TextEditingController lastNameController = TextEditingController();
+  late TextEditingController phoneController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController passwordController = TextEditingController();
+  late TextEditingController confirmPasswordController = TextEditingController();
+  FocusNode firstNameNode = FocusNode();
+  FocusNode lastNameNode = FocusNode();
+  FocusNode phoneNode = FocusNode();
+  FocusNode emailNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
+  FocusNode confirmPasswordNode = FocusNode();
+  FormModel? formModel;
   Future<void> postUserForm() async {
     emit(PostUserFormLoading());
     try {
-      // String? ip = await NetworkHelper.getIpAddress();
       final response = await DioHelper.postData(
         url: 'form/',
         data: {
@@ -189,9 +141,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       if (response.statusCode == 200 || response.statusCode == 201) {
         formModel = FormModel.fromJson(response.data);
         formId = formModel!.id;
-        print('|==|' * 22);
-        print(formModel!.toJson());
-        print('|==|' * 22);
         emit(PostUserFormSuccess());
       } else {
         emit(PostUserFormFailed());
@@ -206,6 +155,17 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     }
   }
 
+  //==== PersonalInfoSection ====
+  DateTime? pickedBirthDate;
+  String? gender;
+  String? nationality;
+  String? difficulties;
+  late TextEditingController birthDateController = TextEditingController();
+  late TextEditingController descriptionController = TextEditingController();
+  GlobalKey<FormState> personalInfoFormKey = GlobalKey<FormState>();
+
+  //==== EducationalStageSection ====
+  SpecificationModel? specificationModel;
   Future<void> postSpecification() async {
     emit(PostSpecificationLoading());
     try {
@@ -238,9 +198,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       if (specificationModel!.form.runtimeType != int) {
         throw Exception(specificationModel!.form.toString());
       }
-      print('|==|' * 22);
-      print(specificationModel!.toJson());
-      print('|==|' * 22);
       emit(PostSpecificationSuccess());
     } on DioException catch (e) {
       debugPrint(e.error.toString());
@@ -252,17 +209,15 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     }
   }
 
+  //==== SubjectsSection ====
+  List<MaterialModel>? materialsList;
+  RequiredCoursesModel? requiredCoursesModel;
   Future<void> getAllMaterials() async {
     materialsList = null;
     emit(GetAllMaterialsLoading());
     try {
       final response = await DioHelper.getData(url: 'material/');
       materialsList = (response.data as List).map((e) => MaterialModel.fromJson(e)).toList();
-      print('|==|' * 22);
-      for (var e in materialsList!) {
-        print(e.toJson());
-      }
-      print('|==|' * 22);
       emit(GetAllMaterialsSuccess());
     } on DioException catch (e) {
       debugPrint(e.error.toString());
@@ -292,10 +247,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         requiredCoursesModel = RequiredCoursesModel.fromJson(response.data);
-        print('|==|' * 22);
-        print('=====>>${response.statusMessage}');
-        print(requiredCoursesModel!.toJson());
-        print('|==|' * 22);
         if (requiredCoursesModel!.form.runtimeType != int) {
           throw Exception(requiredCoursesModel!.form.toString());
         }
@@ -313,22 +264,17 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     }
   }
 
+  //==== SubscribedStudentsSection ====
+  List<PurposeModel>? purposesList;
+  List<String>? chipPurposesList;
+  AdditionalInfoModel? additionalInfoModel;
   Future<void> getAllPurpose() async {
     purposesList = null;
     emit(GetAllPurposeLoading());
     try {
       final response = await DioHelper.getData(url: 'purpose/');
       purposesList = (response.data as List).map((e) => PurposeModel.fromJson(e)).toList();
-      print('|==|' * 22);
-      print(response.statusCode);
-      print(response.data);
-      print('|==|' * 22);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print('|==|' * 22);
-        for (var e in purposesList!) {
-          print(e.toJson());
-        }
-        print('|==|' * 22);
         chipPurposesList = purposesList!.map((e) => e.arabicData!).toList();
         emit(GetAllPurposeSuccess());
       } else {
@@ -382,10 +328,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         additionalInfoModel = AdditionalInfoModel.fromJson(response.data);
-        print('|==|' * 22);
-        print('=====>>${response.statusMessage}');
-        print(additionalInfoModel!.toJson());
-        print('|==|' * 22);
         if (additionalInfoModel!.form.runtimeType != int) {
           throw Exception(additionalInfoModel!.form.toString());
         }
@@ -402,6 +344,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       emit(PostAdditionalInfoFailed());
     }
   }
+  //==== AppointmentsSection ====
+
+  List<DayModel>? daysList;
+  List<String>? chipDaysList;
+  PeriodModel? periodModel;
 
   Future<void> getAllDays() async {
     daysList = null;
@@ -410,11 +357,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       final response = await DioHelper.getData(url: 'day/');
       daysList = (response.data as List).map((e) => DayModel.fromJson(e)).toList();
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print('|==|' * 22);
-        for (var e in daysList!) {
-          print(e.toJson());
-        }
-        print('|==|' * 22);
         chipDaysList = daysList!.map((e) => e.arabicData!).toList();
         emit(GetAllDaysSuccess());
       } else {
@@ -461,10 +403,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         periodModel = PeriodModel.fromJson(response.data);
-        print('|==|' * 22);
-        print('=====>>${response.statusMessage}');
-        print(periodModel!.toJson());
-        print('|==|' * 22);
         if (periodModel!.form.runtimeType != int) {
           throw Exception(periodModel!.form.toString());
         }
@@ -482,6 +420,10 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     }
   }
 
+  //==== PackageSection ====
+  List<SubscriptionModel>? subscriptionsList;
+  ClassModel? classModel;
+
   Future<void> getAllSubscription() async {
     subscriptionsList = null;
     emit(GetAllSubscriptionLoading());
@@ -489,12 +431,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       final response = await DioHelper.getData(url: 'subsription/');
       subscriptionsList = (response.data as List).map((e) => SubscriptionModel.fromJson(e)).toList();
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print('|==|' * 22);
-        for (var e in subscriptionsList!) {
-          print(e.toJson());
-        }
-        print('|==|' * 22);
-        // chipSubscriptionsList = subscriptionsList!.map((e) => e.).toList();
         emit(GetAllSubscriptionSuccess());
       } else {
         emit(GetAllSubscriptionFailed());
@@ -557,10 +493,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         classModel = ClassModel.fromJson(response.data);
-        print('|==|' * 22);
-        print('=====>>${response.statusMessage}');
-        print(classModel!.toJson());
-        print('|==|' * 22);
         if (classModel!.form.runtimeType != int) {
           throw Exception(classModel!.form.toString());
         }
@@ -578,19 +510,28 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     }
   }
 
+  //==== PaymentSection ====
+  bool isTermsChecked = false;
+  GlobalKey<FormState> paymentFormKey = GlobalKey<FormState>();
+  late TextEditingController creditCardNumberController = TextEditingController();
+  late TextEditingController expirationDateController = TextEditingController();
+  late TextEditingController cvvNumberController = TextEditingController();
+  late TextEditingController nameOnCardController = TextEditingController();
+  FocusNode creditCardNode = FocusNode();
+  FocusNode expirationDateNode = FocusNode();
+  FocusNode cvvNumberNode = FocusNode();
+  FocusNode nameOnCardNode = FocusNode();
+  PaymentModel? paymentModel;
+
+  void checkTerms({required bool value}) {
+    isTermsChecked = value;
+    emit(CheckTermsState());
+  }
+
   Future<void> postPayment() async {
     paymentModel = null;
     emit(PostPaymentLoading());
     try {
-      print('|==|' * 22);
-      print({
-        "form": formId,
-        "card_number": creditCardNumberController.value.text.trim(),
-        "cvc": cvvNumberController.value.text.trim(),
-        "exp_date": expirationDateController.value.text.trim(),
-        "card_holder": nameOnCardController.value.text.trim(),
-      });
-      print('|==|' * 22);
       final response = await DioHelper.postData(
         url: 'pay/',
         data: {
@@ -603,10 +544,6 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         paymentModel = PaymentModel.fromJson(response.data);
-        print('|==|' * 22);
-        print('=====>>${response.statusMessage}');
-        print(paymentModel!.toJson());
-        print('|==|' * 22);
         if (response.data == ["message': 'Class not found"]) {
           throw Exception(response.data[0].toString());
         }
