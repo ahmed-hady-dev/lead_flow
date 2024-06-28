@@ -15,9 +15,25 @@ class LeadFlowView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<LeadFlowCubit, LeadFlowState>(
-          listener: (context, state) {
-            if (state is PostUserFormFailed || state is PostSpecificationFailed) {
+          listener: (context, state) async {
+            final cubit = LeadFlowCubit.get(context);
+            if (state is PostUserFormFailed ||
+                state is PostSpecificationFailed ||
+                state is PostRequiredCoursesFailed ||
+                state is GetAllPurposeFailed ||
+                state is PostAdditionalInfoFailed) {
               showErrorSnackBar(context, 'حدث خطأ ما, يرجى المحلاولة مجدداً');
+            }
+            if (state is PostSpecificationSuccess) {
+              cubit.increaseProgress();
+              await cubit.getAllMaterials();
+            }
+            if (state is PostRequiredCoursesSuccess) {
+              cubit.increaseProgress();
+              await cubit.getAllPurpose();
+            }
+            if (state is PostAdditionalInfoSuccess) {
+              cubit.increaseProgress();
             }
           },
           builder: (context, state) {

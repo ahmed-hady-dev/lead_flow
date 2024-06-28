@@ -32,3 +32,21 @@ class GetAllMaterialsLoading extends LeadFlowState {}
 class GetAllMaterialsSuccess extends LeadFlowState {}
 
 class GetAllMaterialsFailed extends LeadFlowState {}
+
+class PostRequiredCoursesLoading extends LeadFlowState {}
+
+class PostRequiredCoursesSuccess extends LeadFlowState {}
+
+class PostRequiredCoursesFailed extends LeadFlowState {}
+
+class GetAllPurposeLoading extends LeadFlowState {}
+
+class GetAllPurposeSuccess extends LeadFlowState {}
+
+class GetAllPurposeFailed extends LeadFlowState {}
+
+class PostAdditionalInfoLoading extends LeadFlowState {}
+
+class PostAdditionalInfoSuccess extends LeadFlowState {}
+
+class PostAdditionalInfoFailed extends LeadFlowState {}

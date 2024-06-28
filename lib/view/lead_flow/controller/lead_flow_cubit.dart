@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lead_flow/core/helpers/dio_helper.dart';
 import 'package:lead_flow/view/lead_flow/model/form_model.dart';
+import 'package:lead_flow/view/lead_flow/model/purpose_model.dart';
 import 'package:meta/meta.dart';
 
+import '../model/additional_info_model.dart';
 import '../model/material_model.dart';
+import '../model/required_courses_model.dart';
 import '../model/specification_model.dart';
 import '../model/ui_models.dart';
 import '../sections/appointments_section.dart';
@@ -39,7 +42,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   List<String> academicStages = [];
   List<String> theClasses = [];
   List<String> curriculums = [];
-  late DateTime pickedBirthDate = DateTime.now();
+  DateTime? pickedBirthDate;
   late PageController pageController = PageController();
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> personalInfoFormKey = GlobalKey<FormState>();
@@ -68,9 +71,12 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   FocusNode cvvNumberNode = FocusNode();
   FocusNode nameOnCardNode = FocusNode();
   FormModel? formModel;
-
   SpecificationModel? specificationModel;
   List<MaterialModel>? materialsList;
+  List<PurposeModel>? purposesList;
+  List<String>? chipPurposesList;
+  RequiredCoursesModel? requiredCoursesModel;
+  AdditionalInfoModel? additionalInfoModel;
   int? formId;
   List<Widget> screens = [
     const PersonalInfoSection(),
@@ -94,9 +100,9 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
     emit(RoleChangedState());
   }
 
-  int calculateAge(DateTime birthDate) {
+  int calculateAge(DateTime? birthDate) {
     DateTime today = DateTime.now();
-    int age = today.year - birthDate.year;
+    int age = today.year - birthDate!.year;
     if (today.month < birthDate.month || (today.month == birthDate.month && today.day < birthDate.day)) {
       age--;
     }
@@ -164,9 +170,16 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
           // "user_ip": ip,
         },
       );
-      formModel = FormModel.fromJson(response.data);
-      formId = formModel!.id;
-      emit(PostUserFormSuccess());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        formModel = FormModel.fromJson(response.data);
+        formId = formModel!.id;
+        print('|==|' * 22);
+        print(formModel!.toJson());
+        print('|==|' * 22);
+        emit(PostUserFormSuccess());
+      } else {
+        emit(PostUserFormFailed());
+      }
     } on DioException catch (e) {
       debugPrint(e.error.toString());
       emit(PostUserFormFailed());
@@ -206,7 +219,12 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
         },
       );
       specificationModel = SpecificationModel.fromJson(response.data);
-
+      if (specificationModel!.form.runtimeType != int) {
+        throw Exception(specificationModel!.form.toString());
+      }
+      print('|==|' * 22);
+      print(specificationModel!.toJson());
+      print('|==|' * 22);
       emit(PostSpecificationSuccess());
     } on DioException catch (e) {
       debugPrint(e.error.toString());
@@ -219,12 +237,15 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   }
 
   Future<void> getAllMaterials() async {
+    materialsList = null;
     emit(GetAllMaterialsLoading());
     try {
       final response = await DioHelper.getData(url: 'material/');
       materialsList = (response.data as List).map((e) => MaterialModel.fromJson(e)).toList();
       print('|==|' * 22);
-      print(materialsList);
+      for (var e in materialsList!) {
+        print(e.toJson());
+      }
       print('|==|' * 22);
       emit(GetAllMaterialsSuccess());
     } on DioException catch (e) {
@@ -234,6 +255,135 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       debugPrint(e.toString());
       debugPrint(s.toString());
       emit(GetAllMaterialsFailed());
+    }
+  }
+
+  Future<void> postRequiredCourses() async {
+    requiredCoursesModel = null;
+    emit(PostRequiredCoursesLoading());
+    try {
+      List<int> materials = [];
+      for (var selectedStage in selectedMaterialsList) {
+        var material = materialsList!.firstWhere((element) => element.id == selectedStage.id).id;
+        materials.add(material!);
+      }
+      final response = await DioHelper.postData(
+        url: 'course/',
+        data: {
+          "form": formId,
+          "materials": materials,
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        requiredCoursesModel = RequiredCoursesModel.fromJson(response.data);
+        print('|==|' * 22);
+        print('=====>>${response.statusMessage}');
+        print(requiredCoursesModel!.toJson());
+        print('|==|' * 22);
+        if (requiredCoursesModel!.form.runtimeType != int) {
+          throw Exception(requiredCoursesModel!.form.toString());
+        }
+        emit(PostRequiredCoursesSuccess());
+      } else {
+        emit(PostRequiredCoursesFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(PostRequiredCoursesFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(PostRequiredCoursesFailed());
+    }
+  }
+
+  Future<void> getAllPurpose() async {
+    purposesList = null;
+    emit(GetAllPurposeLoading());
+    try {
+      final response = await DioHelper.getData(url: 'purpose/');
+      purposesList = (response.data as List).map((e) => PurposeModel.fromJson(e)).toList();
+      print('|==|' * 22);
+      print(response.statusCode);
+      print(response.data);
+      print('|==|' * 22);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('|==|' * 22);
+        for (var e in purposesList!) {
+          print(e.toJson());
+        }
+        print('|==|' * 22);
+        chipPurposesList = purposesList!.map((e) => e.arabicData!).toList();
+        emit(GetAllPurposeSuccess());
+      } else {
+        emit(GetAllPurposeFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(GetAllPurposeFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(GetAllPurposeFailed());
+    }
+  }
+
+  Future<void> postAdditionalInfo() async {
+    additionalInfoModel = null;
+    emit(PostAdditionalInfoLoading());
+    try {
+      List<int> studentCount = [];
+      List<int> purposes = [];
+      switch (selectedStudentCountList) {
+        case ['طالب واحد']:
+          studentCount = [1];
+          break;
+        case ['طالبين']:
+          studentCount = [2];
+          break;
+        case ['ثلاث طلاب']:
+          studentCount = [3];
+          break;
+        case ['أكثر من ذلك']:
+          studentCount = [4];
+          break;
+        default:
+          studentCount = [1];
+      }
+
+      for (var selectedPurpose in selectedPurposesList) {
+        var purpose = purposesList!.firstWhere((element) => element.arabicData == selectedPurpose).id;
+        purposes.add(purpose!);
+      }
+
+      final response = await DioHelper.postData(
+        url: 'count/',
+        data: {
+          "form": formId,
+          "student_count": studentCount.first,
+          "purposes": purposes,
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        additionalInfoModel = AdditionalInfoModel.fromJson(response.data);
+        print('|==|' * 22);
+        print('=====>>${response.statusMessage}');
+        print(additionalInfoModel!.toJson());
+        print('|==|' * 22);
+        if (additionalInfoModel!.form.runtimeType != int) {
+          throw Exception(additionalInfoModel!.form.toString());
+        }
+        emit(PostAdditionalInfoSuccess());
+      } else {
+        emit(PostAdditionalInfoFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(PostAdditionalInfoFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(PostAdditionalInfoFailed());
     }
   }
 

@@ -1,8 +1,10 @@
+import 'package:lead_flow/view/lead_flow/model/studen_count_model.dart';
+
 import '../model/classroom_model.dart';
 import '../model/course_study_model.dart';
-import '../model/grid_item.dart';
 import '../model/package_model.dart';
 import '../model/stage_model.dart';
+import 'material_model.dart';
 
 final List<StageModel> stagesList = [
   StageModel(id: 'kg', name: 'رياض أطفال'),
@@ -37,33 +39,16 @@ List<String> selectedClassRoomsList = [];
 List<String> selectedCourseStudyList = [];
 
 //==============================
-final List<GridItem> subjectsList = [
-  GridItem(text: 'الرياضيات', image: 'assets/images/math_icon.png'),
-  GridItem(text: 'اللغة العربية', image: 'assets/images/arabic_icon.png'),
-  GridItem(text: 'اللغة الألمانية', image: 'assets/images/germany_icon.png'),
-  GridItem(text: 'اللغة الإنجليزية', image: 'assets/images/english_icon.png'),
-  GridItem(text: 'علوم الحاسوب', image: 'assets/images/cs_icon.png'),
-  GridItem(text: 'الكيمياء', image: 'assets/images/chemistry_icon.png'),
-  GridItem(text: 'الأحياء', image: 'assets/images/biology_icon.png'),
-  GridItem(text: 'الفيزياء', image: 'assets/images/physics_icon.png'),
-  GridItem(text: 'اللغة الفرنسية', image: 'assets/images/french_icon.png'),
-];
-List<GridItem> selectedSubjectsList = [];
+List<MaterialModel> selectedMaterialsList = [];
 //==============================
-List<String> participatingStudentsList = [
-  'طابب واحد',
-  'طالبين',
-  'ثلاث طلاب',
-  'أكثر من ذلك',
+List<StudentCountModel> studentCountList = [
+  StudentCountModel(count: 1, name: 'طالب واحد'),
+  StudentCountModel(count: 2, name: 'طالبين'),
+  StudentCountModel(count: 3, name: 'ثلاث طلاب'),
+  StudentCountModel(count: 4, name: 'أكثر من ذلك'),
 ];
-List<String> targetsList = [
-  'تحضير لإختبار',
-  'حل واجبات',
-  'زيادة درجاتي',
-  'أخرى',
-];
-List<String> selectedParticipatingStudentsList = [];
-List<String> selectedTargetsList = [];
+List<String> selectedStudentCountList = [];
+List<String> selectedPurposesList = [];
 //==============================
 List<String> daysList = [
   'السبت',

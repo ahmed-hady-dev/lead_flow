@@ -3,7 +3,7 @@ class SpecificationModel {
   List<String?>? stage;
   List<String?>? classroom;
   List<String?>? courseStudy;
-  int? form;
+  dynamic form;
 
   SpecificationModel({
     this.id,
@@ -38,7 +38,7 @@ class SpecificationModel {
       });
       courseStudy = arr0;
     }
-    form = json['form']?.toInt();
+    form = json['form'];
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

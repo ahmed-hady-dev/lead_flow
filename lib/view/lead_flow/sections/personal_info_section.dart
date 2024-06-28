@@ -33,13 +33,13 @@ class PersonalInfoSection extends StatelessWidget {
           Gap(height * 0.02),
           SelectDateTextFormField(
             controller: cubit.birthDateController,
-            pickedDate: cubit.pickedBirthDate,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'يجب عليك تحديد تاريخ الميلاد';
               }
               return null;
             },
+            // updateDate: ,
           ),
           Gap(height * 0.01),
           const GenderDropDownField(),

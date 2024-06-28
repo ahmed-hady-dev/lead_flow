@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 
 class ChipList extends StatefulWidget {
-  final List<String> chips;
-  final List<String> selectedChips;
-
-  const ChipList({super.key, required this.chips, required this.selectedChips});
+  final List<dynamic> chips;
+  final List<dynamic> selectedChips;
+  final bool multiSelect;
+  const ChipList({super.key, required this.chips, required this.selectedChips, this.multiSelect = true});
 
   @override
   _ChipListState createState() => _ChipListState();
@@ -28,11 +28,21 @@ class _ChipListState extends State<ChipList> {
           selectedColor: Colors.white,
           onSelected: (isSelected) {
             setState(() {
-              if (isSelected) {
-                widget.selectedChips.add(chip);
+              if (widget.multiSelect) {
+                if (isSelected) {
+                  widget.selectedChips.add(chip);
+                } else {
+                  widget.selectedChips.remove(chip);
+                }
               } else {
-                widget.selectedChips.remove(chip);
+                widget.selectedChips.clear();
+                if (isSelected) {
+                  widget.selectedChips.add(chip);
+                }
               }
+              print('|==|' * 22);
+              print(widget.selectedChips);
+              print('|==|' * 22);
             });
           },
           selected: widget.selectedChips.contains(chip),

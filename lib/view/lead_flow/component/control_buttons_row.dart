@@ -50,6 +50,7 @@ class ControlButtonsRow extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          print('formId =>> ${cubit.formId}');
                           switch (index) {
                             case 0:
                               if (cubit.personalInfoFormKey.currentState!.validate()) {
@@ -64,22 +65,21 @@ class ControlButtonsRow extends StatelessWidget {
                               } else if (selectedCourseStudyList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار المنهج الدراسي');
                               } else {
-                                cubit.postSpecification();
-                                // cubit.increaseProgress();
+                                await cubit.postSpecification();
                               }
                             case 2:
-                              if (selectedSubjectsList.isEmpty) {
+                              if (selectedMaterialsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار المواد التي ترغب في دراستها');
                               } else {
-                                cubit.increaseProgress();
+                                cubit.postRequiredCourses();
                               }
                             case 3:
-                              if (selectedParticipatingStudentsList.isEmpty) {
+                              if (selectedStudentCountList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد الطلاب المشتركين');
-                              } else if (selectedTargetsList.isEmpty) {
+                              } else if (selectedPurposesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار أهدافك الدراسية');
                               } else {
-                                cubit.increaseProgress();
+                                cubit.postAdditionalInfo();
                               }
                             case 4:
                               if (selectedDaysList.isEmpty) {
@@ -119,7 +119,11 @@ class ControlButtonsRow extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
-                        child: state is PostUserFormLoading || state is PostSpecificationLoading
+                        child: state is PostUserFormLoading ||
+                                state is PostSpecificationLoading ||
+                                state is PostRequiredCoursesLoading ||
+                                state is PostAdditionalInfoLoading
+                            // ||
                             ? const SizedBox(
                                 height: 24,
                                 width: 24,
