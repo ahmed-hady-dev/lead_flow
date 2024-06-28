@@ -21,7 +21,9 @@ class LeadFlowView extends StatelessWidget {
                 state is PostSpecificationFailed ||
                 state is PostRequiredCoursesFailed ||
                 state is GetAllPurposeFailed ||
-                state is PostAdditionalInfoFailed) {
+                state is PostAdditionalInfoFailed ||
+                state is GetAllDaysFailed ||
+                state is PostTimePeriodFailed) {
               showErrorSnackBar(context, 'حدث خطأ ما, يرجى المحلاولة مجدداً');
             }
             if (state is PostSpecificationSuccess) {
@@ -33,6 +35,14 @@ class LeadFlowView extends StatelessWidget {
               await cubit.getAllPurpose();
             }
             if (state is PostAdditionalInfoSuccess) {
+              cubit.increaseProgress();
+              cubit.getAllDays();
+            }
+            if (state is PostTimePeriodSuccess) {
+              cubit.increaseProgress();
+              cubit.getAllSubscription();
+            }
+            if (state is PostClassAndSubscriptionSuccess) {
               cubit.increaseProgress();
             }
           },

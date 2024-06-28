@@ -40,9 +40,6 @@ class _ChipListState extends State<ChipList> {
                   widget.selectedChips.add(chip);
                 }
               }
-              print('|==|' * 22);
-              print(widget.selectedChips);
-              print('|==|' * 22);
             });
           },
           selected: widget.selectedChips.contains(chip),

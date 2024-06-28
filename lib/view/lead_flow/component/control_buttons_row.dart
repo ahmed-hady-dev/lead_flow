@@ -89,17 +89,17 @@ class ControlButtonsRow extends StatelessWidget {
                               } else if (selectedTimesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار التوقيت المناسب لك');
                               } else {
-                                cubit.increaseProgress();
+                                cubit.postTimePeriod();
                               }
                             case 5:
-                              if (selectedWeeklyLessonsList.isEmpty) {
+                              if (selectedSessionsList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد الحصص إسبوعياً');
-                              } else if (selectedHoursPerClassList.isEmpty) {
+                              } else if (selectedHoursPerSessionList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار عدد ساعات الحصة الواحدة');
                               } else if (selectedPackagesList.isEmpty) {
                                 showErrorSnackBar(context, 'الرجاء اختيار مدة الإ شتراك');
                               } else {
-                                cubit.increaseProgress();
+                                cubit.postClassAndSubscription();
                               }
                             case 6:
                               if (cubit.paymentFormKey.currentState!.validate()) {
@@ -122,7 +122,9 @@ class ControlButtonsRow extends StatelessWidget {
                         child: state is PostUserFormLoading ||
                                 state is PostSpecificationLoading ||
                                 state is PostRequiredCoursesLoading ||
-                                state is PostAdditionalInfoLoading
+                                state is PostAdditionalInfoLoading ||
+                                state is PostTimePeriodLoading ||
+                                state is PostClassAndSubscriptionLoading
                             // ||
                             ? const SizedBox(
                                 height: 24,

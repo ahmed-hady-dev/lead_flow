@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:lead_flow/view/lead_flow/model/package_model.dart';
+import 'package:lead_flow/view/lead_flow/model/subscription_model.dart';
 
 import '../../../constants/app_colors.dart';
 
 class SubscriptionChipList extends StatefulWidget {
-  final List<PackageModel> chips;
-  final List<PackageModel> selectedChips;
+  final List<SubscriptionModel> chips;
+  final List<SubscriptionModel> selectedChips;
 
   const SubscriptionChipList({super.key, required this.chips, required this.selectedChips});
 
@@ -35,15 +35,15 @@ class _SubscriptionChipListState extends State<SubscriptionChipList> {
                       color: Colors.red.shade100,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Text('خصم ${chip.discount.round()}%',
+                    child: Text('خصم ${chip.discount ?? '0'}%',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.redAccent)),
                   ),
                 ),
                 const Gap(8.0),
-                Text(chip.name, style: const TextStyle()),
+                Text(chip.termArabic ?? 'غير متوفر', style: const TextStyle()),
                 const Gap(8.0),
                 Text(
-                  chip.duration,
+                  chip.periodArabic ?? 'غير متوفر',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.primaryGreen),
                 ),
                 const Gap(12.0),
@@ -60,7 +60,7 @@ class _SubscriptionChipListState extends State<SubscriptionChipList> {
                       ),
                     ),
                     Gap(4.0),
-                    Text('${chip.price} درهم',
+                    Text('${double.tryParse(chip.price ?? '0')!.round()} درهم',
                         style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.black)),
                   ],
                 ),
@@ -73,10 +73,9 @@ class _SubscriptionChipListState extends State<SubscriptionChipList> {
             selectedColor: Colors.white,
             onSelected: (isSelected) {
               setState(() {
+                widget.selectedChips.clear();
                 if (isSelected) {
                   widget.selectedChips.add(chip);
-                } else {
-                  widget.selectedChips.remove(chip);
                 }
               });
             },

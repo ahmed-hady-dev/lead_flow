@@ -50,3 +50,27 @@ class PostAdditionalInfoLoading extends LeadFlowState {}
 class PostAdditionalInfoSuccess extends LeadFlowState {}
 
 class PostAdditionalInfoFailed extends LeadFlowState {}
+
+class GetAllDaysLoading extends LeadFlowState {}
+
+class GetAllDaysSuccess extends LeadFlowState {}
+
+class GetAllDaysFailed extends LeadFlowState {}
+
+class PostTimePeriodLoading extends LeadFlowState {}
+
+class PostTimePeriodSuccess extends LeadFlowState {}
+
+class PostTimePeriodFailed extends LeadFlowState {}
+
+class GetAllSubscriptionLoading extends LeadFlowState {}
+
+class GetAllSubscriptionSuccess extends LeadFlowState {}
+
+class GetAllSubscriptionFailed extends LeadFlowState {}
+
+class PostClassAndSubscriptionLoading extends LeadFlowState {}
+
+class PostClassAndSubscriptionSuccess extends LeadFlowState {}
+
+class PostClassAndSubscriptionFailed extends LeadFlowState {}

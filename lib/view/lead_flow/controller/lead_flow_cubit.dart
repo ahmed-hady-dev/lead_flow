@@ -4,14 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lead_flow/core/helpers/dio_helper.dart';
+import 'package:lead_flow/view/lead_flow/model/day_model.dart';
 import 'package:lead_flow/view/lead_flow/model/form_model.dart';
+import 'package:lead_flow/view/lead_flow/model/period_model.dart';
 import 'package:lead_flow/view/lead_flow/model/purpose_model.dart';
 import 'package:meta/meta.dart';
 
 import '../model/additional_info_model.dart';
+import '../model/class_model.dart';
 import '../model/material_model.dart';
 import '../model/required_courses_model.dart';
 import '../model/specification_model.dart';
+import '../model/subscription_model.dart';
 import '../model/ui_models.dart';
 import '../sections/appointments_section.dart';
 import '../sections/educational_stage_section.dart';
@@ -77,6 +81,11 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   List<String>? chipPurposesList;
   RequiredCoursesModel? requiredCoursesModel;
   AdditionalInfoModel? additionalInfoModel;
+  List<DayModel>? daysList;
+  List<String>? chipDaysList;
+  PeriodModel? periodModel;
+  List<SubscriptionModel>? subscriptionsList;
+  ClassModel? classModel;
   int? formId;
   List<Widget> screens = [
     const PersonalInfoSection(),
@@ -384,6 +393,181 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       debugPrint(e.toString());
       debugPrint(s.toString());
       emit(PostAdditionalInfoFailed());
+    }
+  }
+
+  Future<void> getAllDays() async {
+    daysList = null;
+    emit(GetAllDaysLoading());
+    try {
+      final response = await DioHelper.getData(url: 'day/');
+      daysList = (response.data as List).map((e) => DayModel.fromJson(e)).toList();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('|==|' * 22);
+        for (var e in daysList!) {
+          print(e.toJson());
+        }
+        print('|==|' * 22);
+        chipDaysList = daysList!.map((e) => e.arabicData!).toList();
+        emit(GetAllDaysSuccess());
+      } else {
+        emit(GetAllDaysFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(GetAllDaysFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(GetAllDaysFailed());
+    }
+  }
+
+  Future<void> postTimePeriod() async {
+    periodModel = null;
+    emit(PostTimePeriodLoading());
+    try {
+      List<String> shift = [];
+      List<int> days = [];
+      switch (selectedTimePeriodList) {
+        case ['الفترة الصباحية']:
+          shift = ['day'];
+          break;
+        case ['الفترة المسائية']:
+          shift = ['night'];
+          break;
+        default:
+          shift = ['day'];
+      }
+      for (var selectedDay in selectedDaysList) {
+        var day = daysList!.firstWhere((element) => element.arabicData == selectedDay).id;
+        days.add(day!);
+      }
+      final response = await DioHelper.postData(
+        url: 'period/',
+        data: {
+          "form": formId,
+          "shift": shift.first,
+          "time": selectedTimesList.first,
+          "day": days,
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        periodModel = PeriodModel.fromJson(response.data);
+        print('|==|' * 22);
+        print('=====>>${response.statusMessage}');
+        print(periodModel!.toJson());
+        print('|==|' * 22);
+        if (periodModel!.form.runtimeType != int) {
+          throw Exception(periodModel!.form.toString());
+        }
+        emit(PostTimePeriodSuccess());
+      } else {
+        emit(PostTimePeriodFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(PostTimePeriodFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(PostTimePeriodFailed());
+    }
+  }
+
+  Future<void> getAllSubscription() async {
+    subscriptionsList = null;
+    emit(GetAllSubscriptionLoading());
+    try {
+      final response = await DioHelper.getData(url: 'subsription/');
+      subscriptionsList = (response.data as List).map((e) => SubscriptionModel.fromJson(e)).toList();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('|==|' * 22);
+        for (var e in subscriptionsList!) {
+          print(e.toJson());
+        }
+        print('|==|' * 22);
+        // chipSubscriptionsList = subscriptionsList!.map((e) => e.).toList();
+        emit(GetAllSubscriptionSuccess());
+      } else {
+        emit(GetAllSubscriptionFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(GetAllSubscriptionFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(GetAllSubscriptionFailed());
+    }
+  }
+
+  Future<void> postClassAndSubscription() async {
+    periodModel = null;
+    emit(PostClassAndSubscriptionLoading());
+    try {
+      List<String> sessions = [];
+      List<String> hours = [];
+      switch (selectedSessionsList) {
+        case ['حصة واحدة']:
+          sessions = ['one'];
+          break;
+        case ['حصتين']:
+          sessions = ['two'];
+          break;
+        default:
+          sessions = ['one'];
+      }
+
+      switch (selectedHoursPerSessionList) {
+        case ['30 دقيقة']:
+          hours = ['00:30'];
+          break;
+        case ['ساعة واحدة']:
+          hours = ['01:00'];
+          break;
+        case ['ساعة و نصف']:
+          hours = ['01:30'];
+          break;
+        case ['ساعتين']:
+          hours = ['02:00'];
+          break;
+        case ['ساعتين و نصف']:
+          hours = ['02:30'];
+          break;
+        default:
+          hours = ['00:30'];
+      }
+
+      final response = await DioHelper.postData(
+        url: 'class/',
+        data: {
+          "form": formId,
+          "session": sessions.first,
+          "hour": hours.first,
+          "subscription": selectedPackagesList.first.id,
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        classModel = ClassModel.fromJson(response.data);
+        print('|==|' * 22);
+        print('=====>>${response.statusMessage}');
+        print(classModel!.toJson());
+        print('|==|' * 22);
+        if (classModel!.form.runtimeType != int) {
+          throw Exception(classModel!.form.toString());
+        }
+        emit(PostClassAndSubscriptionSuccess());
+      } else {
+        emit(PostClassAndSubscriptionFailed());
+      }
+    } on DioException catch (e) {
+      debugPrint(e.error.toString());
+      emit(PostClassAndSubscriptionFailed());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
+      emit(PostClassAndSubscriptionFailed());
     }
   }
 

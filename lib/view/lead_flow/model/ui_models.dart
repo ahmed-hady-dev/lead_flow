@@ -1,8 +1,8 @@
 import 'package:lead_flow/view/lead_flow/model/studen_count_model.dart';
+import 'package:lead_flow/view/lead_flow/model/subscription_model.dart';
 
 import '../model/classroom_model.dart';
 import '../model/course_study_model.dart';
-import '../model/package_model.dart';
 import '../model/stage_model.dart';
 import 'material_model.dart';
 
@@ -50,62 +50,32 @@ List<StudentCountModel> studentCountList = [
 List<String> selectedStudentCountList = [];
 List<String> selectedPurposesList = [];
 //==============================
-List<String> daysList = [
-  'السبت',
-  'الأحد',
-  'الأثنين',
-  'الأربعاء',
-  'الخميس',
-  'الجمعة',
-];
+
 List<String> timePeriodList = [
   'الفترة الصباحية',
   'الفترة المسائية',
 ];
 List<String> timesList = [
-  '10:00 م',
-  '11:00 م',
-  '12:00 ص',
-  '1:00 ص',
-  '2:00 م',
+  '12:00',
+  '15:00',
 ];
 List<String> selectedDaysList = [];
 List<String> selectedTimePeriodList = [];
 List<String> selectedTimesList = [];
 
 //==============================
-List<String> weeklyLessonsList = [
+List<String> sessionsList = [
   'حصة واحدة',
   'حصتين',
 ];
-List<String> hoursPerClassList = [
-  'ساعة و نصف',
-  'ساعتين',
+List<String> hoursPerSessionList = [
   '30 دقيقة',
   'ساعة واحدة',
+  'ساعة و نصف',
+  'ساعتين',
   'ساعتين و نصف',
 ];
-List<PackageModel> packagesList = [
-  PackageModel(
-    name: 'ثلاثة فصول دراسية',
-    duration: 'اثنا عشر شهراً',
-    price: 800,
-    discount: 15,
-  ),
-  PackageModel(
-    name: 'فصليين دراسيين',
-    duration: 'ستة أشهر',
-    price: 650,
-    discount: 10,
-  ),
-  PackageModel(
-    name: 'فصل دراسي',
-    duration: 'ثلاث أشهر',
-    price: 450,
-    discount: 10,
-  ),
-];
-List<String> selectedWeeklyLessonsList = [];
-List<String> selectedHoursPerClassList = [];
-List<PackageModel> selectedPackagesList = [];
+List<String> selectedSessionsList = [];
+List<String> selectedHoursPerSessionList = [];
+List<SubscriptionModel> selectedPackagesList = [];
 //==============================
