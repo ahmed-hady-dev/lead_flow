@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 import 'package:lead_flow/view/lead_flow/widgets/label_with_asterisk.dart';
 
 import '../../../components/widget_with_vertical_divider.dart';
@@ -12,18 +13,21 @@ class SubjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-      children: [
-        const WidgetWithVerticalDivider(
-          text: 'حدد المواد التي ترغب في تسجيلها و سنوفر عليك الدعم اللازم لتحقيق أهدافك الأكاديمية.',
-          dividerColor: AppColors.primaryGreen,
-        ),
-        Gap(height * 0.02),
-        const LabelWithAsterisk(label: 'حدد المواد التي ترغب في دراستها'),
-        const SubjectsGridView(),
-        Gap(height * 0.01),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async => await LeadFlowCubit.get(context).getAllMaterials(),
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+        children: [
+          const WidgetWithVerticalDivider(
+            text: 'حدد المواد التي ترغب في تسجيلها و سنوفر عليك الدعم اللازم لتحقيق أهدافك الأكاديمية.',
+            dividerColor: AppColors.primaryGreen,
+          ),
+          Gap(height * 0.02),
+          const LabelWithAsterisk(label: 'حدد المواد التي ترغب في دراستها'),
+          const SubjectsGridView(),
+          Gap(height * 0.01),
+        ],
+      ),
     );
   }
 }

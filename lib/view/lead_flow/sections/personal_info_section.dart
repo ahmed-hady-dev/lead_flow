@@ -49,7 +49,7 @@ class PersonalInfoSection extends StatelessWidget {
           const DifficultiesDropDownField(),
           Gap(height * 0.01),
           CustomTextField(
-            lines: 3,
+            maxLines: 3,
             controller: cubit.descriptionController,
             hint: 'هل ترغب في تقديم أي ملاحظات إضافيه حول إحتياجاتك التعليمية أو الدعم الذي تحتاجه؟',
           )

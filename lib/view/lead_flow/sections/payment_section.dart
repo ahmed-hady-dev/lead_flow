@@ -37,7 +37,7 @@ class PaymentSection extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(),
                   children: [
                     const TextSpan(text: 'الإجمالي: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: '${double.tryParse(selectedPackagesList.first.price ?? '0')!.round()} درهم'),
+                    TextSpan(text: '${double.tryParse(selectedSubscriptionList.first.price ?? '0')!.round()} درهم'),
                   ],
                 ),
               ),

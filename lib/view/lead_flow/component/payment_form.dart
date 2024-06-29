@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
-import 'package:lead_flow/view/lead_flow/component/cridet_card_container.dart';
+import 'package:lead_flow/view/lead_flow/component/credit_card_container.dart';
 
 import '../../../components/custom_text_field.dart';
 import 'expiration_date_field.dart';
@@ -21,7 +21,7 @@ class PaymentForm extends StatelessWidget {
       key: cubit.paymentFormKey,
       child: Column(
         children: <Widget>[
-          const CridetCardContainer(),
+          const CreditCardContainer(),
           Gap(height * 0.01),
           CustomTextField(
             controller: cubit.creditCardNumberController,

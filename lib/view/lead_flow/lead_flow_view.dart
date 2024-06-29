@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lead_flow/core/helpers/extensions.dart';
+import 'package:lead_flow/core/router/router.dart';
 import 'package:lead_flow/view/lead_flow/controller/lead_flow_cubit.dart';
 import '../../core/helpers/utils.dart';
+import '../home/home_view.dart';
 import 'component/control_buttons_row.dart';
 import 'component/progress_bar.dart';
 
@@ -28,6 +30,9 @@ class LeadFlowView extends StatelessWidget {
                 state is PostPaymentFailed) {
               showErrorSnackBar(context, 'حدث خطأ ما, يرجى المحلاولة مجدداً');
             }
+            if (state is PostUserFormSuccess) {
+              cubit.increaseProgress();
+            }
             if (state is PostSpecificationSuccess) {
               cubit.increaseProgress();
               await cubit.getAllMaterials();
@@ -48,7 +53,6 @@ class LeadFlowView extends StatelessWidget {
               cubit.increaseProgress();
             }
             if (state is PostPaymentSuccess) {
-              cubit.resetProgress();
               cubit.increaseProgress();
             }
           },
@@ -65,7 +69,7 @@ class LeadFlowView extends StatelessWidget {
                     children: <Widget>[
                       Image.asset('assets/images/logo.png', width: width * 0.4),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () => GlobalRouter.navigateAndPopAll(const HomeView()),
                           style: TextButton.styleFrom(foregroundColor: Colors.black),
                           child: const Text('تخطي'))
                     ],

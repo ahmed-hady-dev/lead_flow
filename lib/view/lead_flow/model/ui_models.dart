@@ -1,4 +1,4 @@
-import 'package:lead_flow/view/lead_flow/model/studen_count_model.dart';
+import 'package:lead_flow/view/lead_flow/model/student_count_model.dart';
 import 'package:lead_flow/view/lead_flow/model/subscription_model.dart';
 
 import '../model/classroom_model.dart';
@@ -77,5 +77,5 @@ List<String> hoursPerSessionList = [
 ];
 List<String> selectedSessionsList = [];
 List<String> selectedHoursPerSessionList = [];
-List<SubscriptionModel> selectedPackagesList = [];
+List<SubscriptionModel> selectedSubscriptionList = [];
 //==============================

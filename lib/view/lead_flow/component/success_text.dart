@@ -15,7 +15,7 @@ class _SuccessTextState extends State<SuccessText> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
@@ -49,7 +49,7 @@ class _SuccessTextState extends State<SuccessText> with SingleTickerProviderStat
           const SizedBox(height: 8),
           Text(
             'شكراً لك على ثقتك في المدرسة دوت كوم',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.green),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.green, letterSpacing: 0),
           ),
         ],
       ),

@@ -5,7 +5,7 @@ import '../../../components/custom_text_field.dart';
 import '../../../core/helpers/picker_helper.dart';
 
 class SelectDateTextFormField extends StatefulWidget {
-  SelectDateTextFormField({
+  const SelectDateTextFormField({
     super.key,
     required this.controller,
     this.validator,

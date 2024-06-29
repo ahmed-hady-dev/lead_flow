@@ -3,8 +3,8 @@ import 'package:gap/gap.dart';
 
 import '../../../constants/app_colors.dart';
 
-class CridetCardContainer extends StatelessWidget {
-  const CridetCardContainer({
+class CreditCardContainer extends StatelessWidget {
+  const CreditCardContainer({
     super.key,
   });
 

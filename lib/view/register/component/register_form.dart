@@ -62,9 +62,7 @@ class RegisterForm extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return 'هذا الحقل مطلوب';
                   }
-                  if (value.length < 11) {
-                    return 'الرجاء إدخال رقم صحيح';
-                  }
+
                   return null;
                 },
                 onFieldSubmitted: (_) => cubit.emailNode.requestFocus(),

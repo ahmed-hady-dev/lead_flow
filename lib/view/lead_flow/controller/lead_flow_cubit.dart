@@ -69,7 +69,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
       completeFlowIndex++;
       pageController.animateToPage(
         completeFlowIndex,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 600),
         curve: Curves.decelerate,
       );
       progress = (completeFlowIndex + 1) / (screens.length);
@@ -79,12 +79,8 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
 
   void decreaseProgress() {
     if (completeFlowIndex > 0) {
-      completeFlowIndex--;
-      pageController.animateToPage(
-        completeFlowIndex,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.decelerate,
-      );
+      completeFlowIndex = 0;
+      pageController.jumpToPage(completeFlowIndex);
       if (completeFlowIndex != 0) {
         progress = (completeFlowIndex + 1) / (screens.length);
       } else {
@@ -214,6 +210,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   RequiredCoursesModel? requiredCoursesModel;
   Future<void> getAllMaterials() async {
     materialsList = null;
+    selectedMaterialsList.clear();
     emit(GetAllMaterialsLoading());
     try {
       final response = await DioHelper.getData(url: 'material/');
@@ -270,6 +267,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
   AdditionalInfoModel? additionalInfoModel;
   Future<void> getAllPurpose() async {
     purposesList = null;
+    selectedPurposesList.clear();
     emit(GetAllPurposeLoading());
     try {
       final response = await DioHelper.getData(url: 'purpose/');
@@ -352,6 +350,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
 
   Future<void> getAllDays() async {
     daysList = null;
+    selectedDaysList.clear();
     emit(GetAllDaysLoading());
     try {
       final response = await DioHelper.getData(url: 'day/');
@@ -426,6 +425,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
 
   Future<void> getAllSubscription() async {
     subscriptionsList = null;
+    selectedSubscriptionList.clear();
     emit(GetAllSubscriptionLoading());
     try {
       final response = await DioHelper.getData(url: 'subsription/');
@@ -488,7 +488,7 @@ class LeadFlowCubit extends Cubit<LeadFlowState> {
           "form": formId,
           "session": sessions.first,
           "hour": hours.first,
-          "subscription": selectedPackagesList.first.id,
+          "subscription": selectedSubscriptionList.first.id,
         },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {

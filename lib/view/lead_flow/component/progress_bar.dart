@@ -32,7 +32,7 @@ class _ProgressBarState extends State<ProgressBar> {
                 ),
               ),
               AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 600),
                 curve: Curves.decelerate,
                 width: cubit.progress * (widget.width - 2 * horizontalPadding) - 4,
                 height: 12,
@@ -42,7 +42,7 @@ class _ProgressBarState extends State<ProgressBar> {
                 ),
               ),
               AnimatedPositionedDirectional(
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 600),
                 curve: Curves.decelerate,
                 start: cubit.progress * (widget.width - 2 * horizontalPadding) - 15,
                 top: 0,

@@ -11,6 +11,8 @@ class CustomTextField extends StatefulWidget {
   final Color? fillColor;
   final bool? enabled;
   final FocusNode? focusNode;
+  final int? minLines;
+  final TextDirection? textDirection;
   final String? Function(String?)? validator;
   final void Function(String)? onChange;
   final void Function(String)? onFieldSubmitted;
@@ -18,12 +20,13 @@ class CustomTextField extends StatefulWidget {
   final String? initialValue;
   final Function()? onTap;
   final double? height;
-  final int? lines;
+  final int? maxLines;
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
   final bool showBorder;
   final BoxConstraints? prefixIconConstraints;
   final List<TextInputFormatter>? inputFormatters;
+  final TextAlign? textAlign;
   const CustomTextField({
     super.key,
     this.type = TextInputType.text,
@@ -37,7 +40,7 @@ class CustomTextField extends StatefulWidget {
     this.height,
     this.enabled = true,
     this.showBorder = true,
-    this.lines,
+    this.maxLines,
     this.onChange,
     this.controller,
     this.onFieldSubmitted,
@@ -46,6 +49,9 @@ class CustomTextField extends StatefulWidget {
     this.prefixIconConstraints,
     this.hintStyle,
     this.inputFormatters,
+    this.textDirection,
+    this.minLines,
+    this.textAlign,
   });
 
   @override
@@ -71,9 +77,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onChanged: widget.onChange,
         focusNode: widget.focusNode,
         onFieldSubmitted: widget.onFieldSubmitted,
-        maxLines: widget.type == TextInputType.visiblePassword ? 1 : widget.lines,
+        maxLines: widget.type == TextInputType.visiblePassword ? 1 : widget.maxLines,
+        minLines: widget.minLines,
         obscureText: widget.type == TextInputType.visiblePassword && !_visible,
         inputFormatters: widget.inputFormatters,
+        textDirection: widget.textDirection ?? TextDirection.rtl,
+        textAlign: widget.textAlign ?? TextAlign.start,
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: widget.hintStyle,
